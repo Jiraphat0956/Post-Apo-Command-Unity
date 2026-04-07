@@ -1,7 +1,7 @@
 # Post-Apo-Command-Unity
 
 ## 🎮 Project Overview
-**Wasteland Command** is a physics-inspired resource management demo built in **Unity**. Set in a post-nuclear fallout world (inspired by S.T.A.L.K.E.R.), players take the role of a Shelter Leader responsible for the survival of a small group of survivors.
+**Post-Apo-Command-Unity** is a physics-inspired resource management demo built in **Unity**. Set in a post-nuclear fallout world (inspired by S.T.A.L.K.E.R.), players take the role of a Shelter Leader responsible for the survival of a small group of survivors.
 
 ## 🧠 Leadership Learning Objectives
 [cite_start]This project focuses on translating core leadership skills into gameplay mechanics[cite: 13, 15]:
