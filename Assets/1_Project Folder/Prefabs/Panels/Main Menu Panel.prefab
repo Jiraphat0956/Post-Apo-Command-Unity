@@ -347,3 +347,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb4a26ff06bd3c4ea6282745c4fbbba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuPanel
+  playButton: {fileID: 4163583155860075289}

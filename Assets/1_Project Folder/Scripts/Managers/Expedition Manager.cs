@@ -1,44 +1,95 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ExpeditionManager : Singleton<ExpeditionManager>
 {
+    public AreaTemplate CurrentArea;
 
-    public ExpeditionResult CalculateResult(ActiveSurvivor explorer, AreaTemplate area)
+    public delegate void ExpeditionGenericHandler<T>(T data);
+
+    public event ExpeditionGenericHandler<AreaTemplate> OnAreaChange;
+    public void SetArea()
     {
+        List<AreaTemplate>areas = GameManager.Instance.allAreas;
+        if (areas.Count > 0)
+        {
+            CurrentArea = areas[Random.Range(0, areas.Count)];
+            OnAreaChange?.Invoke(CurrentArea);
+            Debug.Log($"Current Area: {CurrentArea.AreaName}");
+        }
+        else
+        {
+            Debug.LogError("No areas available in GameManager!");
+        }
+    }
+    public ExpeditionResult ExecutePartyExpedition(List<ActiveSurvivor> party, AreaTemplate area)
+    {
+        // 1. รวม Stat ของทุกคนในทีม
+        int totalStr = 0;
+        int totalPer = 0;
+        int totalAgi = 0;
+
+        foreach (var member in party)
+        {
+            totalStr += member.Stats.Strength;
+            totalPer += member.Stats.Perception;
+            totalAgi += member.Stats.Agility;
+        }
+
+        // 2. คำนวณโอกาสสำเร็จ (Success Rate)
+        // เริ่มต้นที่ 100% แล้วหักออกตามส่วนต่างของ Stat ที่ขาดไป
         float successChance = 1.0f;
-        string report = "";
+        List<string> updates = new List<string>();
 
-        // 1. Check Strength Gap
-        int strGap = area.Stats.RequiredStrength - explorer.Stats.Strength;
-        if (strGap > 0)
+        // ตรวจสอบ Strength (เช่น การฝ่าสิ่งกีดขวาง)
+        if (totalStr < area.Stats.RequiredStrength)
         {
-            successChance -= (strGap * 0.15f); // เสียโอกาสสำเร็จ 15% ต่อแต้มที่ขาด
-            report += "ขาดแรงในการเคลียร์ซากปรักหักพัง. ";
+            float penalty = (area.Stats.RequiredStrength - totalStr) * 0.1f;
+            successChance -= penalty;
+            updates.Add($"ทีมแรงไม่พอที่จะเคลียร์ทางสะดวก (Success Chance -{penalty * 100}%)");
         }
 
-        // 2. Check Perception Gap (ส่งผลต่อความเสียหายที่ได้รับ)
-        int perGap = area.Stats.RequiredPerception - explorer.Stats.Perception;
-        float damageTaken = 0f;
-        if (perGap > 0)
+        // ตรวจสอบ Perception (เช่น การหาของหรือเลี่ยงอันตราย)
+        if (totalPer < area.Stats.RequiredPerception)
         {
-            damageTaken = perGap * 20f; // ได้รับบาดเจ็บตามค่า Perception ที่ขาด
-            report += "ตรวจไม่พบกับดัก/กัมมันตภาพรังสีในพื้นที่. ";
+            successChance -= 0.15f;
+            updates.Add("ทีมมองไม่เห็นเส้นทางลัด ทำให้เสียเวลาและเสี่ยงมากขึ้น");
         }
 
-        // 3. Final Roll
-        float roll = Random.value; // สุ่มค่า 0.0 - 1.0
-        bool isSuccess = roll <= successChance;
+        // 3. ทอยลูกเต๋าตัดสินผล (Final Roll)
+        bool isSuccess = Random.value <= successChance;
+        float foodFound = 0;
 
-        // Apply Damage
-        explorer.CurrentHealth -= damageTaken;
-        if (!isSuccess) explorer.CurrentHealth -= 30f; // ถ้าพลาดภารกิจ จะเจ็บตัวเพิ่ม
+        if (isSuccess)
+        {
+            foodFound = area.FoodRewardRange * Random.Range(0.8f, 1.2f);
+            updates.Add($"สำเร็จ! พบเสบียง {foodFound:F0} หน่วย");
+        }
+        else
+        {
+            updates.Add("ภารกิจล้มเหลว ทีมต้องถอยกลับมาก่อนจะเกิดอันตราย");
+        }
+
+        // 4. จัดการสถานะลูกทีมหลังจบภารกิจ
+        foreach (var member in party)
+        {
+            member.IsResting = true; // ทุกคนที่ไปต้องพักในเทิร์นหน้า (Mechanic: Fatigue Management)
+
+            // ถ้าล้มเหลว มีโอกาสบาดเจ็บ
+            if (!isSuccess)
+            {
+                float damage = Random.Range(10f, 30f);
+                member.CurrentHealth -= damage;
+                updates.Add($"{member.Name} บาดเจ็บจากการถอยทัพ (-{damage:F0} HP)");
+            }
+        }
 
         return new ExpeditionResult
         {
             IsSuccess = isSuccess,
-            DamageTaken = damageTaken,
-            Log = isSuccess ? "ภารกิจสำเร็จ! " + report : "ภารกิจล้มเหลว... " + report,
-            SurvivorStillAlive = explorer.CurrentHealth > 0
+            Log = isSuccess ? "Mission Accomplished" : "Mission Failed",
+            FoodGained = foodFound,
+            StatusUpdates = updates
         };
     }
 }
@@ -46,7 +97,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
 public struct ExpeditionResult
 {
     public bool IsSuccess;
-    public float DamageTaken;
     public string Log;
-    public bool SurvivorStillAlive;
+    public float FoodGained;
+    public List<string> StatusUpdates; // เก็บเหตุการณ์ที่เกิดขึ้นกับแต่ละคน
 }
