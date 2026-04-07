@@ -18,11 +18,11 @@
 * [cite_start]**Engine:** Unity 2022.x (or your version) [cite: 24]
 * **Language:** C#
 * **Key Scripts:** `ExpeditionManager.cs` (Handles the success/failure logic based on stat gaps).
+* Utilized ScriptableObjects for both Survivor and Area data management, allowing for a decoupled architecture where game balance can be tuned independently from the core logic.
 
 ## 🤖 AI Tool Usage Note
 [cite_start]In compliance with the project brief[cite: 41], the following AI tools were used:
-* **Gemini/Grok:** Assisted in architecting the mathematical scaling for the expedition success logic to ensure fair but challenging gameplay.
-* **DALL-E/Midjourney:** (If used) Generated environmental concept art to establish the visual tone of the fallout shelter.
+* **Gemini/ChatGPT:** Assisted in architecting the mathematical scaling for the expedition success logic to ensure fair but challenging gameplay.
 
 ## 🚀 How to Play
 1. Clone the repository.
