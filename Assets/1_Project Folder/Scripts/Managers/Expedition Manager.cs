@@ -28,6 +28,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
     }
     public void ExecutePartyExpedition(List<ActiveSurvivor> party)
     {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         AreaTemplate area = CurrentArea;
         // 1. รวม Stat ของทุกคนในทีม
         int totalStr = 0;
@@ -50,7 +51,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
         List<string> updates = new List<string>();
 
         // หักลบโอกาสสำเร็จจากความเหนื่อย (ยิ่งเหนื่อยมาก โอกาสล้มเหลวยิ่งสูง)
-        float fatiguePenalty = (avgFatigue / 100f) * 0.4f; // สูงสุดหัก 40%
+        float fatiguePenalty = (avgFatigue / 100f) * config.MaxFatiguePenalty; // สูงสุดหัก 99%
         successChance -= fatiguePenalty;
 
         if (avgFatigue > 50f)
@@ -68,11 +69,22 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
         // 3. ทอยลูกเต๋าตัดสินผล (Final Roll)
         bool isSuccess = Random.value <= successChance;
         float supplyFound = 0;
+        SurvivorTemplate foundSurvivor = null; // ตัวแปรชั่วคราวเก็บคนใหม่
 
         if (isSuccess)
         {
             supplyFound = area.FoodRewardRange * Random.Range(0.8f, 1.2f);
             updates.Add($"\r\nSuccess! {supplyFound:F0} supply unit found.");
+            // เพิ่มโอกาสพบผู้รอดชีวิตใหม่ (เช่น 25%)
+            if (Random.value <= config.NewSurvivorChance)
+            {
+                var templates = GameManager.Instance.allSurvivors;
+                if (templates.Count > 0)
+                {
+                    foundSurvivor = templates[Random.Range(0, templates.Count)];
+                    updates.Add($"<color=green>New Survivor Found: {foundSurvivor.DefaultName}!</color>");
+                }
+            }
         }
         else
         {
@@ -104,7 +116,8 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             IsSuccess = isSuccess,
             Log = isSuccess ? "Mission Accomplished" : "Mission Failed",
             SupplyGained = supplyFound,
-            StatusUpdates = updates
+            StatusUpdates = updates,
+            FoundSurvivor = foundSurvivor
         };
         OnExpeditionComplete?.Invoke(CurrentResult);
     }
@@ -121,10 +134,11 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
     }
     void IncreaseFatigue(ActiveSurvivor survivor)
     {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         // ยิ่งเหนื่อยมาก ครั้งต่อไปจะยิ่งเหนื่อยเพิ่มขึ้นทวีคูณ
         // สูตร: ค่าความเหนื่อยฐาน + (ค่าความเหนื่อยปัจจุบัน * ตัวคูณ)
-        float baseFatigueGain = 20f;
-        float multiplier = 1.5f;
+        float baseFatigueGain = config.BaseFatigueGain;
+        float multiplier = config.FatigueMultiplier;
 
         float additionalFatigue = baseFatigueGain + (survivor.Fatigue * multiplier);
         survivor.Fatigue = Mathf.Min(100f, survivor.Fatigue + additionalFatigue);
@@ -137,4 +151,5 @@ public struct ExpeditionResult
     public string Log;
     public float SupplyGained;
     public List<string> StatusUpdates; // เก็บเหตุการณ์ที่เกิดขึ้นกับแต่ละคน
+    public SurvivorTemplate FoundSurvivor;
 }

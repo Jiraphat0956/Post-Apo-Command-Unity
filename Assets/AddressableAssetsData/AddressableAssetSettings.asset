@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1675682d1de774241996dc53db016283
   m_currentHash:
     serializedVersion: 2
-    Hash: a0085b498b7414b540d25e32c5a96597
+    Hash: a00e4d24e678bea79dd3b9b063422260
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
     - default
     - SurvivorData
     - AreaData
+    - GameConfig
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 43f1a8f973b19614f8c4eb45547ecbef, type: 2}

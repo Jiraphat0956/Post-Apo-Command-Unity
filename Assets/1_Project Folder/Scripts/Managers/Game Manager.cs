@@ -7,13 +7,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : Singleton<GameManager>
 {
+    public List<GameBalanceConfig> allGameBalanceConfig { get; private set; } = new List<GameBalanceConfig>();
     public List<AreaTemplate> allAreas { get; private set; } = new List<AreaTemplate>();
     public List<SurvivorTemplate> allSurvivors { get; private set; } = new List<SurvivorTemplate>();
 
     public List<ActiveSurvivor> activeSurvivors = new List<ActiveSurvivor>();
     public List<ActiveSurvivor> selectedSurvivor = new List<ActiveSurvivor>();
 
+    public GameBalanceConfig CurrentConfig { get; private set; }
     public GameState CurrentState { get; private set; }
+    public GameState CurrentDay { get; private set; }
     public float TotalSupply { get; private set; }
     public bool IsSkiped { get; set; }
 
@@ -26,14 +29,19 @@ public class GameManager : Singleton<GameManager>
     async void Start()
     {
         // โหลดข้อมูลด้วย Label
+        await LoadAssetsByLabel<GameBalanceConfig>("GameConfig", allGameBalanceConfig);
         await LoadAssetsByLabel<AreaTemplate>("AreaData", allAreas);
         await LoadAssetsByLabel<SurvivorTemplate>("SurvivorData", allSurvivors);
-        TotalSupply = 5;
-        RandomSurvivor(3);
+
+        SetGameBalanceConfig(0);
+
+        TotalSupply = CurrentConfig.StartingSupply;
+        RandomSurvivor(CurrentConfig.StartingSurvivorCount);
         ChangeGameState(GameState.MainMenu);
 
         ExpeditionManager.Instance.OnExpeditionComplete += (x) =>
         {
+            CurrentDay++;
             AddSupply(x.SupplyGained);
             ChangeGameState(GameState.Result);
         };
@@ -70,6 +78,18 @@ public class GameManager : Singleton<GameManager>
             {
                 Debug.LogError("No survivor templates available to create active survivors!");
             }
+        }
+    }
+    public void SetGameBalanceConfig(int index)
+    {
+        if (index >= 0 && index < allGameBalanceConfig.Count)
+        {
+            CurrentConfig = allGameBalanceConfig[index];
+            Debug.Log($"Current Game Balance Config set to: {CurrentConfig.name}");
+        }
+        else
+        {
+            Debug.LogError($"Invalid Game Balance Config index: {index}");
         }
     }
     #endregion
@@ -137,7 +157,13 @@ public class GameManager : Singleton<GameManager>
         var notSelectedSurvivors = activeSurvivors
             .Where(s => !selectedSurvivor.Contains(s))
             .ToList();
-        RemoveSupply(notSelectedSurvivors.Count);
+        float totalFoodConsumption = notSelectedSurvivors.Count * CurrentConfig.FoodConsumptionPerPerson;
+        if (IsSkiped)//ถ้า SkipExpedition จะมีการลด Penalty ในการบริโภคอาหาร (Mechanic: Skip Expedition Penalty Reduction)
+        {
+            totalFoodConsumption *= CurrentConfig.SkipExpeditionPenaltyMultiplier;
+        }
+        RemoveSupply(notSelectedSurvivors.Count * CurrentConfig.FoodConsumptionPerPerson);
+
         foreach (var survivor in notSelectedSurvivors)
         {
             survivor.RestAndRecover();

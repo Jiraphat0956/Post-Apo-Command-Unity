@@ -18,11 +18,12 @@ public class ActiveSurvivor
     // ฟังก์ชันคำนวณการฟื้นฟูเมื่อไม่ได้ออกสำรวจ
     public void RestAndRecover()
     {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         // ลดความเหนื่อยลงเหลือ 0 (ฟื้นฟูเต็มที่)
-        Fatigue = 0;
+        Fatigue = config.RestRecoveryRate;
 
         // ฟื้นฟูเลือด (ถ้ามีอาหารพอกิน)
-        CurrentHealth = Mathf.Min(Stats.MaxHealth, CurrentHealth + 15f);
+        CurrentHealth = Mathf.Min(Stats.MaxHealth, CurrentHealth + config.HealthRecoveryRate);
     }
 
 

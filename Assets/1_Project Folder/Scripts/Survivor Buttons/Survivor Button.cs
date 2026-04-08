@@ -7,6 +7,8 @@ public class SurvivorButton : MonoBehaviour
     ActiveSurvivor _info;
     [SerializeField] bool isSelectedButton; // กำหนดใน Inspector ว่าปุ่มนี้เป็นปุ่มสำหรับคนที่ถูกเลือกอยู่หรือไม่
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] Image hpGage;
+    [SerializeField] Image staminaGage;
 
     Button _button;
 
@@ -23,6 +25,8 @@ public class SurvivorButton : MonoBehaviour
     {
         this._info = info;
         nameText.text = info.Name;
+        hpGage.fillAmount = info.CurrentHealth / info.Stats.MaxHealth;
+        staminaGage.fillAmount = 1 - (info.Fatigue / 100);
         _button.interactable = !info.IsResting; // ถ้าคนนี้กำลังพักผ่อนอยู่ ให้ปุ่มไม่สามารถกดได้
     }
     void SelectThisSurvivor()
