@@ -7,6 +7,7 @@ public class ResultPanel: UIPanel
 {
     [SerializeField] TextMeshProUGUI resultText;
     [SerializeField] Button nextAreaButton;
+    [SerializeField] Button newExpeditionButton;
 
     [Header ("Recruit Survivor")]
     [SerializeField] GameObject recruitPanel;
@@ -16,12 +17,16 @@ public class ResultPanel: UIPanel
     private void OnEnable()
     {
         nextAreaButton.onClick.AddListener(GoNextArea);
+        recruitButton.onClick.AddListener(RecruitSurvivor);
+        ignoreButton.onClick.AddListener(IgnoreRecruitment);
+        newExpeditionButton.onClick.AddListener(GoToMainMenu);
     }
     private void OnDisable()
     {
         nextAreaButton.onClick.RemoveListener(GoNextArea);
         recruitButton.onClick.RemoveAllListeners();
         ignoreButton.onClick.RemoveAllListeners();
+        newExpeditionButton.onClick.RemoveListener(GoToMainMenu);
     }
     public void DisplayResult(ExpeditionResult result)
     {
@@ -40,21 +45,44 @@ public class ResultPanel: UIPanel
         {
             displayMessage += "- " + status + "\n";
         }
-        resultText.text = displayMessage;
 
-        if(result.FoundSurvivor != null)
+        resultText.text = displayMessage;
+    }
+    public void DisplayGameOver()
+    {
+        GameManager gameManager = GameManager.Instance;
+        string displayMessage = resultText.text;
+        displayMessage += gameManager.IsGameOver ? $"Game Over! : {gameManager.GetGameOverReason()}" : "Prepare for the next expedition.";
+        resultText.text = displayMessage;
+    }
+    public void HandleButtons()
+    {
+        GameManager gameManager = GameManager.Instance;
+
+        ExpeditionResult result = ExpeditionManager.Instance.CurrentResult;
+        if (result.FoundSurvivor != null && !gameManager.IsGameOver)
         {
             recruitPanel.SetActive(true);
             nextAreaButton.interactable = false;
-            recruitButton.interactable = !GameManager.Instance.IsActiveSurvivorFull();
+            recruitButton.interactable = !gameManager.IsActiveSurvivorFull();
+            newExpeditionButton.gameObject.SetActive(false);
 
-            recruitButton.onClick.AddListener(RecruitSurvivor);
-            ignoreButton.onClick.AddListener(IgnoreRecruitment);
         }
         else
         {
+            if (gameManager.IsGameOver)
+            {
+                nextAreaButton.gameObject.SetActive(false);
+                newExpeditionButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                nextAreaButton.gameObject.SetActive(true);
+                newExpeditionButton.gameObject.SetActive(false);
+            }
             recruitPanel.SetActive(false);
         }
+
     }
     void GoNextArea()
     {
@@ -74,5 +102,9 @@ public class ResultPanel: UIPanel
     {
         recruitPanel.SetActive(false);
         nextAreaButton.interactable = true;
+    }
+    void GoToMainMenu()
+    {
+        GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
 }

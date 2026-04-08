@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     public int CurrentDay { get; private set; }
     public float TotalSupply { get; private set; }
     public bool IsSkiped { get; set; }
+    public bool IsGameOver { get; set; }
 
     public delegate void GameGenericHandler<T>(T data);
     public delegate void GameHandler();
@@ -119,21 +120,33 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Result:
                 HandleSurvivorRestStatus();
-                OnDayEnd();
+                CheckGameOver();
+
                 break;
         }
         OnGameStateChange?.Invoke(CurrentState);
     }
-    void OnDayEnd()
+    public void CheckGameOver()
     {
-        if (TotalSupply <= 0)
+        IsGameOver = false;
+        if (TotalSupply <= 0 || activeSurvivors.Count <= 0)
         {
-            Debug.Log("Game Over! You ran out of supplies.");
+            IsGameOver = true; // Game Over
         }
         else if (CurrentDay >= CurrentConfig.TargetDayToWin)
-        { 
-            
+        {
+            IsGameOver = true; // Win Condition
         }
+    }
+    public string GetGameOverReason()
+    {
+        if (TotalSupply <= 0)
+            return "<color=red>You ran out of supplies!</color>";
+        else if (activeSurvivors.Count <= 0)
+            return "<color=red>All survivors have perished!</color>";
+        else if (CurrentDay >= CurrentConfig.TargetDayToWin)
+            return "<color=green>Congratulations! You've survived until the target day!</color>";
+        return "Game is still ongoing.";
     }
 
     #endregion
@@ -170,12 +183,12 @@ public class GameManager : Singleton<GameManager>
         var notSelectedSurvivors = activeSurvivors
             .Where(s => !selectedSurvivor.Contains(s))
             .ToList();
-        float totalFoodConsumption = notSelectedSurvivors.Count * CurrentConfig.FoodConsumptionPerPerson;
+        float totalSupplyConsumption = notSelectedSurvivors.Count * CurrentConfig.SupplyConsumptionPerPerson;
         if (IsSkiped)//ถ้า SkipExpedition จะมีการลด Penalty ในการบริโภคอาหาร (Mechanic: Skip Expedition Penalty Reduction)
         {
-            totalFoodConsumption *= CurrentConfig.SkipExpeditionPenaltyMultiplier;
+            totalSupplyConsumption *= CurrentConfig.SkipExpeditionPenaltyMultiplier;
         }
-        RemoveSupply(notSelectedSurvivors.Count * CurrentConfig.FoodConsumptionPerPerson);
+        RemoveSupply(notSelectedSurvivors.Count * CurrentConfig.SupplyConsumptionPerPerson);
 
         foreach (var survivor in notSelectedSurvivors)
         {

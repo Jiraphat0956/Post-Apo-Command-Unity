@@ -110,7 +110,6 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
                     updates.Add($"{member.Name} was injured during the retreat. (-{damage:F0} HP)");
             }
         }
-
         CurrentResult = new ExpeditionResult
         {
             IsSuccess = isSuccess,

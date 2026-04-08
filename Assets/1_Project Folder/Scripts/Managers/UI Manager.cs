@@ -22,7 +22,8 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChange += ChangeUIPanel;
-        GameManager.Instance.OnGameStateChange += (x) => { _preparePanel.UpdateTotalSupply(); };
+        GameManager.Instance.OnGameStateChange += (x) => { if (x == GameState.Prepare) _preparePanel.UpdateTotalSupply(); };
+        GameManager.Instance.OnGameStateChange += (x) => { if (x == GameState.Result) _resultPanel.HandleButtons(); };
         GameManager.Instance.OnSurvivorListChange += _preparePanel.UpdateSurvivorList;
         ExpeditionManager.Instance.OnAreaChange += _preparePanel.UpdateAreaInfo;
         ExpeditionManager.Instance.OnExpeditionComplete += _resultPanel.DisplayResult;

@@ -18,7 +18,7 @@ public class GameBalanceConfig : ScriptableObject
     [Range(1, 3)] public int MaxPartySize = 3; // จำนวนคนสูงสุดที่สามารถส่งออกสำรวจได้
 
     [Header("Resources")]
-    public float FoodConsumptionPerPerson = 5f; // อาหารที่กินต่อคนต่อเทิร์น
+    public float SupplyConsumptionPerPerson = 5f; // อาหารที่กินต่อคนต่อเทิร์น
     public float SkipExpeditionPenaltyMultiplier = 2f; // ตัวคูณบทลงโทษเมื่อ Skip
 
     [Header("Recruitment")]
