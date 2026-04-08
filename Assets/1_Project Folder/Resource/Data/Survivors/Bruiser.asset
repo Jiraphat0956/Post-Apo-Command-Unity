@@ -17,3 +17,4 @@ MonoBehaviour:
     Strength: 8
     Perception: 2
     Agility: 1
+    MaxHealth: 100

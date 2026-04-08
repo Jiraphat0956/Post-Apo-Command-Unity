@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     public List<ActiveSurvivor> selectedSurvivor = new List<ActiveSurvivor>();
 
     public GameState CurrentState { get; private set; }
+    public float TotalSupply { get; private set; }
     public bool IsSkiped { get; set; }
 
     public delegate void GameGenericHandler<T>(T data);
@@ -27,12 +28,13 @@ public class GameManager : Singleton<GameManager>
         // โหลดข้อมูลด้วย Label
         await LoadAssetsByLabel<AreaTemplate>("AreaData", allAreas);
         await LoadAssetsByLabel<SurvivorTemplate>("SurvivorData", allSurvivors);
-
+        TotalSupply = 5;
         RandomSurvivor(3);
         ChangeGameState(GameState.MainMenu);
 
-        ExpeditionManager.Instance.OnExpeditionComplete += () =>
+        ExpeditionManager.Instance.OnExpeditionComplete += (x) =>
         {
+            AddSupply(x.SupplyGained);
             ChangeGameState(GameState.Result);
         };
     }
@@ -71,6 +73,8 @@ public class GameManager : Singleton<GameManager>
         }
     }
     #endregion
+
+    #region Game State Management
     public void ChangeGameState(GameState newState)
     {
         CurrentState = newState;
@@ -99,7 +103,9 @@ public class GameManager : Singleton<GameManager>
         }
         OnGameStateChange?.Invoke(CurrentState);
     }
+    #endregion
 
+    #region Survivor Management
     public void AddActiveSurvivor(SurvivorTemplate survivorTemplate)
     {
         ActiveSurvivor newSurvivor = new ActiveSurvivor(survivorTemplate);
@@ -131,14 +137,29 @@ public class GameManager : Singleton<GameManager>
         var notSelectedSurvivors = activeSurvivors
             .Where(s => !selectedSurvivor.Contains(s))
             .ToList();
+        RemoveSupply(notSelectedSurvivors.Count);
         foreach (var survivor in notSelectedSurvivors)
         {
+            survivor.RestAndRecover();
             survivor.IsResting = false; // คนที่ไม่ได้ไปจะไม่พัก (Mechanic: Active Recovery)
         }
         foreach (var member in selectedSurvivor)
         {
-            member.IsResting = true; // ทุกคนที่ไปต้องพักในเทิร์นหน้า (Mechanic: Fatigue Management)
+            if(member.Fatigue >= 100) member.IsResting = true; // ทุกคนที่เหนื่อยมากเกินไปต้องพักในเทิร์นหน้า (Mechanic: Fatigue Management)
         }
         selectedSurvivor.Clear();
     }
+    #endregion
+
+    #region Supply Management
+    public void AddSupply(float amount)
+    {
+        TotalSupply += amount;
+        Debug.Log($"Added {amount} supply. Total supply: {TotalSupply}");
+    }
+    public void RemoveSupply(float amount)
+    {
+        TotalSupply -= amount;
+    }
+    #endregion
 }

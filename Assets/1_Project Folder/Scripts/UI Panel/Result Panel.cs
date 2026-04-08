@@ -16,14 +16,13 @@ public class ResultPanel: UIPanel
     {
         nextAreaButton.onClick.RemoveListener(GoNextArea);
     }
-    public void DisplayResult()
+    public void DisplayResult(ExpeditionResult result)
     {
-        ExpeditionResult result = ExpeditionManager.Instance.CurrentResult;
         string displayMessage = string.Empty;
         if (result.IsSuccess)
         {
             displayMessage += "Expedition Successful!\n";
-            displayMessage += $"Food Gained: {result.FoodGained}\n";
+            displayMessage += $"Supply Gained: {result.SupplyGained}\n";
         }
         else
         {
