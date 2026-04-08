@@ -8,6 +8,8 @@ public class PreparePanel : UIPanel
 {
     [SerializeField] TextMeshProUGUI areaNameText;
     [SerializeField] TextMeshProUGUI areaDetailText;
+    [SerializeField] TextMeshProUGUI totalSupplyText;
+
     [SerializeField] Button startExpeditionButton;
     [SerializeField] Button skipExpeditionButton;
 
@@ -23,6 +25,11 @@ public class PreparePanel : UIPanel
     {
         startExpeditionButton.onClick.RemoveListener(StartExpedition);
         skipExpeditionButton.onClick.RemoveListener(SkipExpedition);
+    }
+    public void UpdateTotalSupply()
+    {
+        var totalSupply = GameManager.Instance.TotalSupply;
+        totalSupplyText.text = $"Total Supply: {totalSupply}";
     }
     public void UpdateAreaInfo(AreaTemplate area)
     {

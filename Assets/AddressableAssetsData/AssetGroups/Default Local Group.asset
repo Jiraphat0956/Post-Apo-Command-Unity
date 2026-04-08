@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SurvivorData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d02e5147db1169f499df11aa7331abaf
+    m_Address: Assets/1_Project Folder/Resource/Data/Game Balance Config/Normal Mode.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GameConfig
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: daf77b80a2f89cf41bceb033bdabf507
     m_Address: Assets/1_Project Folder/Resource/Data/Areas/Collapsed Tunnel.asset
     m_ReadOnly: 0
