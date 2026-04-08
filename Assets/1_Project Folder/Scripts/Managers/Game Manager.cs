@@ -1,8 +1,9 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -28,13 +29,14 @@ public class GameManager : Singleton<GameManager>
         await LoadAssetsByLabel<SurvivorTemplate>("SurvivorData", allSurvivors);
 
         RandomSurvivor(3);
+        ChangeGameState(GameState.MainMenu);
 
         ExpeditionManager.Instance.OnExpeditionComplete += () =>
         {
             ChangeGameState(GameState.Result);
         };
     }
-
+    #region Loading Assets & Setup Data
     private async Task LoadAssetsByLabel<T>(string label, List<T> targetList) where T : ScriptableObject
     {
         // สร้าง AsyncOperationHandle
@@ -53,32 +55,6 @@ public class GameManager : Singleton<GameManager>
             Debug.LogError($"Failed to load Addressables for label: {label}");
         }
     }
-    public void ChangeGameState(GameState newState)
-    {
-        CurrentState = newState;
-        switch (CurrentState)
-        {
-            case GameState.MainMenu:
-                break;
-            case GameState.Prepare:
-                ExpeditionManager.Instance.SetArea();
-                break;
-            case GameState.Expedition:
-                if (IsSkiped)
-                {
-                    selectedSurvivor.Clear();
-                    ExpeditionManager.Instance.SkipExpedition();
-                }
-                else
-                {
-                    ExpeditionManager.Instance.ExecutePartyExpedition(selectedSurvivor);
-                }
-                break;
-            case GameState.Result:
-                break;
-        }
-        OnGameStateChange?.Invoke(CurrentState);
-    }
     public void RandomSurvivor(int count)
     {
         for (int i = 0; i < count; i++)
@@ -94,11 +70,46 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+    #endregion
+    public void ChangeGameState(GameState newState)
+    {
+        CurrentState = newState;
+        switch (CurrentState)
+        {
+            case GameState.MainMenu:
+                break;
+            case GameState.Prepare:
+                ExpeditionManager.Instance.SetArea();
+                IsSkiped = false;
+                break;
+            case GameState.Expedition:
+                if (IsSkiped)
+                {
+                    selectedSurvivor.Clear();
+                    ExpeditionManager.Instance.SkipExpedition();
+                }
+                else
+                {
+                    ExpeditionManager.Instance.ExecutePartyExpedition(selectedSurvivor);
+                }
+                break;
+            case GameState.Result:
+                HandleSurvivorRestStatus();
+                break;
+        }
+        OnGameStateChange?.Invoke(CurrentState);
+    }
+
     public void AddActiveSurvivor(SurvivorTemplate survivorTemplate)
     {
         ActiveSurvivor newSurvivor = new ActiveSurvivor(survivorTemplate);
         activeSurvivors.Add(newSurvivor);
         Debug.Log($"Added new survivor: {newSurvivor.Name}");
+    }
+    public void RemoveActiveSurvivor(ActiveSurvivor survivor)
+    {
+        activeSurvivors.Remove(survivor);
+        Debug.Log($"Removed survivor: {survivor.Name}");
     }
     public void AddSelectedSurvivor(ActiveSurvivor survivor)
     {
@@ -111,5 +122,23 @@ public class GameManager : Singleton<GameManager>
         selectedSurvivor.Remove(survivor);
         Debug.Log($"Remove selected survivor: {survivor.Name}");
         OnSurvivorListChange?.Invoke();
+    }
+    void HandleSurvivorRestStatus()
+    {
+        ExpeditionResult result = ExpeditionManager.Instance.CurrentResult;
+
+        // 1. กรองคนที่ "ไม่ได้ถูกเลือก"
+        var notSelectedSurvivors = activeSurvivors
+            .Where(s => !selectedSurvivor.Contains(s))
+            .ToList();
+        foreach (var survivor in notSelectedSurvivors)
+        {
+            survivor.IsResting = false; // คนที่ไม่ได้ไปจะไม่พัก (Mechanic: Active Recovery)
+        }
+        foreach (var member in selectedSurvivor)
+        {
+            member.IsResting = true; // ทุกคนที่ไปต้องพักในเทิร์นหน้า (Mechanic: Fatigue Management)
+        }
+        selectedSurvivor.Clear();
     }
 }

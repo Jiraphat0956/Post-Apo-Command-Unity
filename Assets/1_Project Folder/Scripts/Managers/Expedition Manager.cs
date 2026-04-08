@@ -50,14 +50,14 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
         {
             float penalty = (area.Stats.RequiredStrength - totalStr) * 0.1f;
             successChance -= penalty;
-            updates.Add($"ทีมแรงไม่พอที่จะเคลียร์ทางสะดวก (Success Chance -{penalty * 100}%)");
+            updates.Add($"The team didn't have enough manpower to clear the way. (Success Chance -{penalty * 100}%)");
         }
 
         // ตรวจสอบ Perception (เช่น การหาของหรือเลี่ยงอันตราย)
         if (totalPer < area.Stats.RequiredPerception)
         {
             successChance -= 0.15f;
-            updates.Add("ทีมมองไม่เห็นเส้นทางลัด ทำให้เสียเวลาและเสี่ยงมากขึ้น");
+            updates.Add("\r\nThe team couldn't see a shortcut, which wasted time and increased their risks.");
         }
 
         // 3. ทอยลูกเต๋าตัดสินผล (Final Roll)
@@ -67,24 +67,29 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
         if (isSuccess)
         {
             foodFound = area.FoodRewardRange * Random.Range(0.8f, 1.2f);
-            updates.Add($"สำเร็จ! พบเสบียง {foodFound:F0} หน่วย");
+            updates.Add($"\r\nSuccess! {foodFound:F0} supply unit found.");
         }
         else
         {
-            updates.Add("ภารกิจล้มเหลว ทีมต้องถอยกลับมาก่อนจะเกิดอันตราย");
+            updates.Add("\r\nThe mission failed. The team had to retreat before it became dangerous.");
         }
 
         // 4. จัดการสถานะลูกทีมหลังจบภารกิจ
         foreach (var member in party)
         {
-            member.IsResting = true; // ทุกคนที่ไปต้องพักในเทิร์นหน้า (Mechanic: Fatigue Management)
-
             // ถ้าล้มเหลว มีโอกาสบาดเจ็บ
             if (!isSuccess)
             {
                 float damage = Random.Range(10f, 30f);
                 member.CurrentHealth -= damage;
-                updates.Add($"{member.Name} บาดเจ็บจากการถอยทัพ (-{damage:F0} HP)");
+                if (member.CurrentHealth <= 0)
+                {
+                    GameManager.Instance.RemoveActiveSurvivor(member); // Kill if health drops to 0 or below
+                    updates.Add($"{member.Name} died in an accident during an expedition.");
+
+                }
+                else
+                    updates.Add($"{member.Name} was injured during the retreat. (-{damage:F0} HP)");
             }
         }
 
@@ -104,7 +109,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             IsSuccess = false,
             Log = "Expedition Skipped",
             FoodGained = 0,
-            StatusUpdates = new List<string> { "ทีมตัดสินใจข้ามภารกิจนี้ไป" }
+            StatusUpdates = new List<string> { "The team decided to skip this mission." }
         };
         OnExpeditionComplete?.Invoke();
     }

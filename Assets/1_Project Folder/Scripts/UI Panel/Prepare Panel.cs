@@ -34,20 +34,15 @@ public class PreparePanel : UIPanel
         var allSurvivors = GameManager.Instance.activeSurvivors;
         var selectedList = GameManager.Instance.selectedSurvivor;
 
-        // 1. กรองคนที่ "ไม่ได้ถูกเลือก" และ "ไม่พักอยู่"
+        // 1. กรองคนที่ "ไม่ได้ถูกเลือก"
         var availableSurvivors = allSurvivors
-            .Where(s => !selectedList.Contains(s) && !s.IsResting)
+            .Where(s => !selectedList.Contains(s))
             .ToList();
 
         // 2. กรองคนที่ "ถูกเลือกอยู่" ในขณะนี้
         // (ใช้ Contains เพื่อให้แน่ใจว่าคนใน selectedList ยังมีตัวตนอยู่ใน activeSurvivors จริง)
         var currentSelection = allSurvivors
             .Where(s => selectedList.Contains(s))
-            .ToList();
-
-        // 3. กรองคนที่ "กำลังพักผ่อน" (ถ้าต้องการแยกไปโชว์อีกที่ หรือทำให้กดไม่ได้)
-        var restingSurvivors = allSurvivors
-            .Where(s => s.IsResting && !selectedList.Contains(s))
             .ToList();
 
         // เรียกฟังก์ชันเพื่อวาดปุ่มบน UI (ตัวอย่าง Logic การแสดงผล)
@@ -63,7 +58,7 @@ public class PreparePanel : UIPanel
             if (i < dataList.Count)
             {
                 buttonList[i].gameObject.SetActive(true);
-                buttonList[i].GetComponentInChildren<SurvivorButton>().SetupInfo(dataList[i]);
+                buttonList[i].GetComponent<SurvivorButton>().SetupInfo(dataList[i]);
             }
             else
             {
