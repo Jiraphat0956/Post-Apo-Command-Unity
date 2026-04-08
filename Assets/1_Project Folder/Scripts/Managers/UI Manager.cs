@@ -8,18 +8,21 @@ public class UIManager : MonoBehaviour
 
     MainMenuPanel _mainMenuPanel;
     PreparePanel _preparePanel;
+    ExpeditionPanel _expeditionPanel;
     ResultPanel _resultPanel;
 
     private void Awake()
     {
         _mainMenuPanel = panels.Find(panel => panel is MainMenuPanel) as MainMenuPanel;
         _preparePanel = panels.Find(panel => panel is PreparePanel) as PreparePanel;
+        _expeditionPanel = panels.Find(panel => panel is ExpeditionPanel) as ExpeditionPanel;
         _resultPanel = panels.Find(panel => panel is ResultPanel) as ResultPanel;
     }
 
     private void Start()
     {
         GameManager.Instance.OnGameStateChange += ChangeUIPanel;
+        GameManager.Instance.OnSurvivorListChange += _preparePanel.UpdateSurvivorList;
         ExpeditionManager.Instance.OnAreaChange += _preparePanel.UpdateAreaInfo;
     }
     void ChangeUIPanel(GameState gameState)
@@ -31,7 +34,10 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.Prepare:
                 ShowPanel(_preparePanel);
-                _preparePanel.SetupSurvivorList();
+                _preparePanel.UpdateSurvivorList();
+                break;
+            case GameState.Expedition:
+                ShowPanel(_expeditionPanel);
                 break;
             case GameState.Result:
                 ShowPanel(_resultPanel);

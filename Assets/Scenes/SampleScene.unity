@@ -152,6 +152,7 @@ RectTransform:
   m_Children:
   - {fileID: 1437266426}
   - {fileID: 1322236087}
+  - {fileID: 2444337806498919343}
   - {fileID: 345232605}
   m_Father: {fileID: 551057781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -252,6 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9568875ced6454abc55a6192d3070c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  activeSurvivors: []
+  selectedSurvivor: []
 --- !u!4 &215022448
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +455,7 @@ MonoBehaviour:
   panels:
   - {fileID: 1437266429}
   - {fileID: 1322236090}
+  - {fileID: 9123551006504060328}
   - {fileID: 345232608}
 --- !u!4 &551057781
 Transform:
@@ -1032,6 +1036,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da1ebb6aef8c0a842ba1e026e22a9cad, type: 3}
+--- !u!224 &2444337806498919343 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+  m_PrefabInstance: {fileID: 9123551006504060327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6279696887846805572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1133,6 +1142,118 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d014729358801e34983194921c10097a, type: 3}
+--- !u!1001 &9123551006504060327
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 198980057}
+    m_Modifications:
+    - target: {fileID: 5801352835584951647, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_Name
+      value: Expedition Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801352835584951647, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862665890118275105, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+--- !u!114 &9123551006504060328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6334231604850967545, guid: c90d8fe4f399b2b48bbd197c589072df, type: 3}
+  m_PrefabInstance: {fileID: 9123551006504060327}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5d7c06158235c4f8c75c8a20aca87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExpeditionPanel
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

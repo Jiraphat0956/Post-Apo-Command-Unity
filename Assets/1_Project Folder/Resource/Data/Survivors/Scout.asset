@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: Scout
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: 
+  DefaultName: Scout
   BaseStats:
     Strength: 1
     Perception: 8

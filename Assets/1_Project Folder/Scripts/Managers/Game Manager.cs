@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.AddressableAssets; // ต้องเพิ่ม
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks; // ต้องเพิ่ม
+using System.Threading.Tasks;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -13,10 +13,13 @@ public class GameManager : Singleton<GameManager>
     public List<ActiveSurvivor> selectedSurvivor = new List<ActiveSurvivor>();
 
     public GameState CurrentState { get; private set; }
+    public bool IsSkiped { get; set; }
 
     public delegate void GameGenericHandler<T>(T data);
+    public delegate void GameHandler();
 
     public event GameGenericHandler<GameState> OnGameStateChange;
+    public event GameHandler OnSurvivorListChange;
 
     async void Start()
     {
@@ -25,6 +28,11 @@ public class GameManager : Singleton<GameManager>
         await LoadAssetsByLabel<SurvivorTemplate>("SurvivorData", allSurvivors);
 
         RandomSurvivor(3);
+
+        ExpeditionManager.Instance.OnExpeditionComplete += () =>
+        {
+            ChangeGameState(GameState.Result);
+        };
     }
 
     private async Task LoadAssetsByLabel<T>(string label, List<T> targetList) where T : ScriptableObject
@@ -55,6 +63,17 @@ public class GameManager : Singleton<GameManager>
             case GameState.Prepare:
                 ExpeditionManager.Instance.SetArea();
                 break;
+            case GameState.Expedition:
+                if (IsSkiped)
+                {
+                    selectedSurvivor.Clear();
+                    ExpeditionManager.Instance.SkipExpedition();
+                }
+                else
+                {
+                    ExpeditionManager.Instance.ExecutePartyExpedition(selectedSurvivor);
+                }
+                break;
             case GameState.Result:
                 break;
         }
@@ -80,5 +99,17 @@ public class GameManager : Singleton<GameManager>
         ActiveSurvivor newSurvivor = new ActiveSurvivor(survivorTemplate);
         activeSurvivors.Add(newSurvivor);
         Debug.Log($"Added new survivor: {newSurvivor.Name}");
+    }
+    public void AddSelectedSurvivor(ActiveSurvivor survivor)
+    {
+        selectedSurvivor.Add(survivor);
+        Debug.Log($"Added selected survivor: {survivor.Name}");
+        OnSurvivorListChange?.Invoke();
+    }
+    public void RemoveSelectedSurvivor(ActiveSurvivor survivor)
+    {
+        selectedSurvivor.Remove(survivor);
+        Debug.Log($"Remove selected survivor: {survivor.Name}");
+        OnSurvivorListChange?.Invoke();
     }
 }

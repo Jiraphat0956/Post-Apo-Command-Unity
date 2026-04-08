@@ -4,10 +4,13 @@ using UnityEngine;
 public class ExpeditionManager : Singleton<ExpeditionManager>
 {
     public AreaTemplate CurrentArea;
+    public ExpeditionResult CurrentResult;
 
     public delegate void ExpeditionGenericHandler<T>(T data);
+    public delegate void ExpeditionHandler();
 
     public event ExpeditionGenericHandler<AreaTemplate> OnAreaChange;
+    public event ExpeditionHandler OnExpeditionComplete;
     public void SetArea()
     {
         List<AreaTemplate>areas = GameManager.Instance.allAreas;
@@ -22,8 +25,9 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             Debug.LogError("No areas available in GameManager!");
         }
     }
-    public ExpeditionResult ExecutePartyExpedition(List<ActiveSurvivor> party, AreaTemplate area)
+    public void ExecutePartyExpedition(List<ActiveSurvivor> party)
     {
+        AreaTemplate area = CurrentArea;
         // 1. รวม Stat ของทุกคนในทีม
         int totalStr = 0;
         int totalPer = 0;
@@ -84,13 +88,25 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             }
         }
 
-        return new ExpeditionResult
+        CurrentResult = new ExpeditionResult
         {
             IsSuccess = isSuccess,
             Log = isSuccess ? "Mission Accomplished" : "Mission Failed",
             FoodGained = foodFound,
             StatusUpdates = updates
         };
+        OnExpeditionComplete?.Invoke();
+    }
+    public void SkipExpedition()
+    {
+        CurrentResult = new ExpeditionResult
+        {
+            IsSuccess = false,
+            Log = "Expedition Skipped",
+            FoodGained = 0,
+            StatusUpdates = new List<string> { "ทีมตัดสินใจข้ามภารกิจนี้ไป" }
+        };
+        OnExpeditionComplete?.Invoke();
     }
 }
 

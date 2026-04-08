@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: Bruiser
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: 
+  DefaultName: Bruiser
   BaseStats:
     Strength: 8
     Perception: 2

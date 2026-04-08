@@ -8,15 +8,28 @@ public class PreparePanel : UIPanel
 {
     [SerializeField] TextMeshProUGUI areaNameText;
     [SerializeField] TextMeshProUGUI areaDetailText;
+    [SerializeField] Button startExpeditionButton;
+    [SerializeField] Button skipExpeditionButton;
 
     [SerializeField] List<Button> notSelectedSurvivorButtonList;
     [SerializeField] List<Button> selectedSurvivorButtonList;
+
+    private void OnEnable()
+    {
+        startExpeditionButton.onClick.AddListener(StartExpedition);
+        skipExpeditionButton.onClick.AddListener(SkipExpedition);
+    }
+    private void OnDisable()
+    {
+        startExpeditionButton.onClick.RemoveListener(StartExpedition);
+        skipExpeditionButton.onClick.RemoveListener(SkipExpedition);
+    }
     public void UpdateAreaInfo(AreaTemplate area)
     {
         areaNameText.text = area.AreaName;
         areaDetailText.text = area.Description;
     }
-    public void SetupSurvivorList()
+    public void UpdateSurvivorList()
     {
         var allSurvivors = GameManager.Instance.activeSurvivors;
         var selectedList = GameManager.Instance.selectedSurvivor;
@@ -40,6 +53,8 @@ public class PreparePanel : UIPanel
         // เรียกฟังก์ชันเพื่อวาดปุ่มบน UI (ตัวอย่าง Logic การแสดงผล)
         RenderButtons(notSelectedSurvivorButtonList, availableSurvivors);
         RenderButtons(selectedSurvivorButtonList, currentSelection);
+
+        UpdateExpeditionButton(selectedList);
     }
     private void RenderButtons(List<Button> buttonList, List<ActiveSurvivor> dataList)
     {
@@ -55,5 +70,18 @@ public class PreparePanel : UIPanel
                 buttonList[i].gameObject.SetActive(false);
             }
         }
+    }
+    void UpdateExpeditionButton(List<ActiveSurvivor> dataList)
+    {
+        startExpeditionButton.interactable = dataList.Count > 0;
+    }
+    void StartExpedition()
+    {
+        GameManager.Instance.ChangeGameState(GameState.Expedition);
+    }
+    void SkipExpedition()
+    {
+        GameManager.Instance.IsSkiped = true;
+        StartExpedition();
     }
 }
