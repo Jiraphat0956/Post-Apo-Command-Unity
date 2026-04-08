@@ -26,6 +26,7 @@ public class GameManager : Singleton<GameManager>
 
     public event GameGenericHandler<GameState> OnGameStateChange;
     public event GameHandler OnSurvivorListChange;
+    public event GameHandler OnGameOver;
 
     async void Start()
     {
@@ -36,8 +37,6 @@ public class GameManager : Singleton<GameManager>
 
         SetGameBalanceConfig(0);
 
-        TotalSupply = CurrentConfig.StartingSupply;
-        RandomSurvivor(CurrentConfig.StartingSurvivorCount);
         ChangeGameState(GameState.MainMenu);
 
         ExpeditionManager.Instance.OnExpeditionComplete += (x) =>
@@ -102,6 +101,10 @@ public class GameManager : Singleton<GameManager>
         switch (CurrentState)
         {
             case GameState.MainMenu:
+                CurrentDay = 0;
+                activeSurvivors.Clear();
+                TotalSupply = CurrentConfig.StartingSupply;
+                RandomSurvivor(CurrentConfig.StartingSurvivorCount);
                 break;
             case GameState.Prepare:
                 ExpeditionManager.Instance.SetArea();
@@ -132,10 +135,12 @@ public class GameManager : Singleton<GameManager>
         if (TotalSupply <= 0 || activeSurvivors.Count <= 0)
         {
             IsGameOver = true; // Game Over
+            OnGameOver?.Invoke();
         }
         else if (CurrentDay >= CurrentConfig.TargetDayToWin)
         {
             IsGameOver = true; // Win Condition
+            OnGameOver?.Invoke();
         }
     }
     public string GetGameOverReason()
