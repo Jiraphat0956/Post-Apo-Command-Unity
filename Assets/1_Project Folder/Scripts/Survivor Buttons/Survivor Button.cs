@@ -27,7 +27,10 @@ public class SurvivorButton : MonoBehaviour
         nameText.text = info.Name;
         hpGage.fillAmount = info.CurrentHealth / info.Stats.MaxHealth;
         staminaGage.fillAmount = 1 - (info.Fatigue / 100);
-        _button.interactable = !info.IsResting; // ถ้าคนนี้กำลังพักผ่อนอยู่ ให้ปุ่มไม่สามารถกดได้
+        if (!isSelectedButton)
+        {
+            _button.interactable = !info.IsResting && !GameManager.Instance.IsPartyFull();
+        }
     }
     void SelectThisSurvivor()
     {

@@ -20,7 +20,7 @@ public class ActiveSurvivor
     {
         GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         // ลดความเหนื่อยลงเหลือ 0 (ฟื้นฟูเต็มที่)
-        Fatigue = config.RestRecoveryRate;
+        Fatigue = Mathf.Max(0, Fatigue - config.RestRecoveryRate);
 
         // ฟื้นฟูเลือด (ถ้ามีอาหารพอกิน)
         CurrentHealth = Mathf.Min(Stats.MaxHealth, CurrentHealth + config.HealthRecoveryRate);

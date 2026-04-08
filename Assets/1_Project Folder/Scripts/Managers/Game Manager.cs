@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
 
     public GameBalanceConfig CurrentConfig { get; private set; }
     public GameState CurrentState { get; private set; }
-    public GameState CurrentDay { get; private set; }
+    public int CurrentDay { get; private set; }
     public float TotalSupply { get; private set; }
     public bool IsSkiped { get; set; }
 
@@ -119,10 +119,23 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Result:
                 HandleSurvivorRestStatus();
+                OnDayEnd();
                 break;
         }
         OnGameStateChange?.Invoke(CurrentState);
     }
+    void OnDayEnd()
+    {
+        if (TotalSupply <= 0)
+        {
+            Debug.Log("Game Over! You ran out of supplies.");
+        }
+        else if (CurrentDay >= CurrentConfig.TargetDayToWin)
+        { 
+            
+        }
+    }
+
     #endregion
 
     #region Survivor Management
@@ -175,6 +188,8 @@ public class GameManager : Singleton<GameManager>
         }
         selectedSurvivor.Clear();
     }
+    public bool IsPartyFull() => selectedSurvivor.Count >= CurrentConfig.MaxPartySize;
+    public bool IsActiveSurvivorFull() => activeSurvivors.Count >= CurrentConfig.MaxActiveSurvivor;
     #endregion
 
     #region Supply Management

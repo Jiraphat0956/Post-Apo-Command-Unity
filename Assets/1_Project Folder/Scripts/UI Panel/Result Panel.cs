@@ -46,6 +46,8 @@ public class ResultPanel: UIPanel
         {
             recruitPanel.SetActive(true);
             nextAreaButton.interactable = false;
+            recruitButton.interactable = !GameManager.Instance.IsActiveSurvivorFull();
+
             recruitButton.onClick.AddListener(RecruitSurvivor);
             ignoreButton.onClick.AddListener(IgnoreRecruitment);
         }

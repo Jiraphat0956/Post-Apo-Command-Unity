@@ -14,12 +14,17 @@ public class GameBalanceConfig : ScriptableObject
     public float RestRecoveryRate = 25f; // อัตราการลดความเหนื่อยเมื่อพัก
     public float HealthRecoveryRate = 10f; // อัตราการเพิ่มเลือดเมื่อพัก
 
+    [Header("Party Values")]
+    [Range(1, 3)] public int MaxPartySize = 3; // จำนวนคนสูงสุดที่สามารถส่งออกสำรวจได้
+
     [Header("Resources")]
     public float FoodConsumptionPerPerson = 5f; // อาหารที่กินต่อคนต่อเทิร์น
     public float SkipExpeditionPenaltyMultiplier = 2f; // ตัวคูณบทลงโทษเมื่อ Skip
 
     [Header("Recruitment")]
     [Range(0, 1)] public float NewSurvivorChance = 0.25f; // โอกาสเจอคนใหม่ (0-1)
+    [Range(1, 15)] public int MaxActiveSurvivor = 15; // จำนวนคนสูงสุดที่สามารถส่งออกสำรวจได้
+
 
     [Header("Success Probability")]
     [Range(0, 1)] public float MaxFatiguePenalty = 0.4f; // โดนหักโอกาสสำเร็จสูงสุดจากความเหนื่อย
