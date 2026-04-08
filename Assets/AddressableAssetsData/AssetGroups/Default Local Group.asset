@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: 1675682d1de774241996dc53db016283
+  m_SerializeEntries:
+  - m_GUID: 81e7062577c26574dada807fa067c089
+    m_Address: Assets/1_Project Folder/Resource/Data/Survivors/Scout.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d3b0533cbfc0344990006da2f25f7ca
+    m_Address: Assets/1_Project Folder/Resource/Data/Survivors/Runner.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1f0ec13ecd0ab0428244ba42cb3a0ed
+    m_Address: Assets/1_Project Folder/Resource/Data/Survivors/Bruiser.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daf77b80a2f89cf41bceb033bdabf507
+    m_Address: Assets/1_Project Folder/Resource/Data/Areas/Collapsed Tunnel.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f30ba2ee27a4f2a44a0ce32fb0535d5b
+    m_Address: Assets/1_Project Folder/Resource/Data/Areas/Radioactive Lab.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 62f4c2a19050eb242a07158fc2f225c9, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c514c20abe1edfd4aac5d6860d20eb5b, type: 2}
+    - {fileID: 11400000, guid: 297d653a4c6e9ec498d2db051e4593e8, type: 2}
