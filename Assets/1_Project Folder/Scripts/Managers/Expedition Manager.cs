@@ -44,17 +44,25 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             totalAgi += member.Stats.Agility;
             totalFatigue += member.Fatigue;
         }
-
         float successChance = 0;
+
+        // 1. Fatigue Penalty
+        //successChance -= (avgFatigue / 100f) * config.MaxFatiguePenalty;
+
         float totalRequirement = area.Stats.RequiredStrength + area.Stats.RequiredPerception + area.Stats.RequiredAgility;
+        if (totalStr >= area.Stats.RequiredStrength)
+        {
+            successChance += area.Stats.RequiredStrength;
+        }
+        if (totalPer >= area.Stats.RequiredPerception)
+        {
+            successChance += area.Stats.RequiredPerception;
+        }
+        if (totalAgi >= area.Stats.RequiredAgility)
+        {
+            successChance += area.Stats.RequiredAgility;
+        }
 
-        // --- คำนวณความสำเร็จพื้นฐานจาก Stat ---
-        // ใช้ Mathf.Min เพื่อให้แต่ละ Stat ส่งคะแนนให้ได้ไม่เกินที่โควต้ากำหนด
-        successChance += Mathf.Min(totalStr, area.Stats.RequiredStrength);
-        successChance += Mathf.Min(totalPer, area.Stats.RequiredPerception);
-        successChance += Mathf.Min(totalAgi, area.Stats.RequiredAgility);
-
-        // ทำเป็น Ratio (0.0 - 1.0)
         successChance = (successChance / totalRequirement);
 
         // --- คำนวณ Fatigue Penalty ---
@@ -62,11 +70,17 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
         float avgFatigue = totalFatigue / party.Count;
         float fatiguePenaltyPercent = (avgFatigue / 100f);
 
-        // --- หักลบแบบ % โดยเอา successChance ตั้ง ---
-        // สูตร: โอกาสเดิม * (1 - %ที่จะลด)
-        // เช่น ถ้า successChance คือ 0.8 (80%) และเหนื่อย 0.2 (20%) 
-        // ผลคือ 0.8 * (1 - 0.2) = 0.64 (เหลือ 64%)
         successChance = successChance * (1f - fatiguePenaltyPercent);
+
+        // 2. Stats Penalty (เช็คครบทั้ง 3 สาย)
+        /*if (totalStr < area.Stats.RequiredStrength)
+            successChance -= (area.Stats.RequiredStrength - totalStr) * 0.1f;
+
+        if (totalPer < area.Stats.RequiredPerception)
+            successChance -= (area.Stats.RequiredPerception - totalPer) * 0.1f;
+
+        if (totalAgi < area.Stats.RequiredAgility)
+            successChance -= (area.Stats.RequiredAgility - totalAgi) * 0.1f;*/
 
         return Mathf.Clamp01(successChance);
     }
