@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>
     public GameBalanceConfig CurrentConfig { get; private set; }
     public GameState CurrentState { get; private set; }
     public int CurrentDay { get; private set; }
+    public int TargetDay { get { return CurrentConfig != null ? CurrentConfig.TargetDayToWin : 0; } }
     public float TotalSupply { get; private set; }
     public bool IsSkiped { get; set; }
     public bool IsGameOver { get; set; }

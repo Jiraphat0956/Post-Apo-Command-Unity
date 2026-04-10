@@ -20,7 +20,7 @@ MonoBehaviour:
   RestRecoveryRate: 25
   HealthRecoveryRate: 10
   MaxPartySize: 3
-  FoodConsumptionPerPerson: 1
+  SupplyConsumptionPerPerson: 1
   SkipExpeditionPenaltyMultiplier: 2
   NewSurvivorChance: 0.25
   MaxActiveSurvivor: 15

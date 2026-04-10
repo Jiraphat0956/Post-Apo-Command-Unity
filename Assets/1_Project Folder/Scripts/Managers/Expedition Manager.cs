@@ -82,7 +82,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
                 if (templates.Count > 0)
                 {
                     foundSurvivor = templates[Random.Range(0, templates.Count)];
-                    updates.Add($"<color=green>New Survivor Found: {foundSurvivor.DefaultName}!</color>");
+                    updates.Add($"<color=green>New Survivor Found: {foundSurvivor.name}!</color>");
                 }
             }
         }

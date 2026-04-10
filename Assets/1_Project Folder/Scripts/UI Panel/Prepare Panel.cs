@@ -9,12 +9,18 @@ public class PreparePanel : UIPanel
     [SerializeField] TextMeshProUGUI areaNameText;
     [SerializeField] TextMeshProUGUI areaDetailText;
     [SerializeField] TextMeshProUGUI totalSupplyText;
+    [SerializeField] TextMeshProUGUI dayText;
 
     [SerializeField] Button startExpeditionButton;
     [SerializeField] Button skipExpeditionButton;
 
     [SerializeField] List<Button> notSelectedSurvivorButtonList;
     [SerializeField] List<Button> selectedSurvivorButtonList;
+
+    [Header("Requirement Stats")]
+    [SerializeField] TextMeshProUGUI strengethText;
+    [SerializeField] TextMeshProUGUI perceptionText;
+    [SerializeField] TextMeshProUGUI agilityText;
 
     private void OnEnable()
     {
@@ -29,12 +35,22 @@ public class PreparePanel : UIPanel
     public void UpdateTotalSupply()
     {
         var totalSupply = GameManager.Instance.TotalSupply;
-        totalSupplyText.text = $"Total Supply: {totalSupply}";
+        totalSupplyText.text = $"Supply: {totalSupply}";
     }
+    public void UpdateDay()
+    {
+        var currentDay = GameManager.Instance.CurrentDay;
+        var targetDay = GameManager.Instance.TargetDay;
+        dayText.text = $"Day {currentDay}/{targetDay}";
+    }
+
     public void UpdateAreaInfo(AreaTemplate area)
     {
         areaNameText.text = area.AreaName;
         areaDetailText.text = area.Description;
+        strengethText.text = area.Stats.RequiredStrength.ToString();
+        perceptionText.text = area.Stats.RequiredPerception.ToString();
+        agilityText.text = area.Stats.RequiredAgility.ToString();
     }
     public void UpdateSurvivorList()
     {

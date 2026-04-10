@@ -7,6 +7,9 @@ public class SurvivorButton : MonoBehaviour
     ActiveSurvivor _info;
     [SerializeField] bool isSelectedButton; // กำหนดใน Inspector ว่าปุ่มนี้เป็นปุ่มสำหรับคนที่ถูกเลือกอยู่หรือไม่
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI strengethText;
+    [SerializeField] TextMeshProUGUI perceptionText;
+    [SerializeField] TextMeshProUGUI agilityText;
     [SerializeField] Image hpGage;
     [SerializeField] Image staminaGage;
 
@@ -27,6 +30,9 @@ public class SurvivorButton : MonoBehaviour
         nameText.text = info.Name;
         hpGage.fillAmount = info.CurrentHealth / info.Stats.MaxHealth;
         staminaGage.fillAmount = 1 - (info.Fatigue / 100);
+        strengethText.text = info.Stats.Strength.ToString();
+        perceptionText.text = info.Stats.Perception.ToString();
+        agilityText.text = info.Stats.Agility.ToString();   
         if (!isSelectedButton)
         {
             _button.interactable = !info.IsResting && !GameManager.Instance.IsPartyFull();
