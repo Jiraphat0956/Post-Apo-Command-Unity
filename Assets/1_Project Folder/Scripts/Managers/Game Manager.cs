@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
 
     public List<ActiveSurvivor> activeSurvivors = new List<ActiveSurvivor>();
     public List<ActiveSurvivor> selectedSurvivor = new List<ActiveSurvivor>();
+    public List<ActiveSurvivor> notSelectedSurvivor { get { return activeSurvivors.Where(s => !selectedSurvivor.Contains(s)).ToList(); } }
 
     public GameBalanceConfig CurrentConfig { get; private set; }
     public GameState CurrentState { get; private set; }
@@ -123,7 +124,7 @@ public class GameManager : Singleton<GameManager>
                 }
                 break;
             case GameState.Result:
-                HandleSurvivorRestStatus();
+                HandleSurvivorRecovery();
                 CheckGameOver();
 
                 break;
@@ -181,20 +182,18 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"Remove selected survivor: {survivor.Name}");
         OnSurvivorListChange?.Invoke();
     }
-    void HandleSurvivorRestStatus()
+    void HandleSurvivorRecovery()
     {
         ExpeditionResult result = ExpeditionManager.Instance.CurrentResult;
 
         // 1. กรองคนที่ "ไม่ได้ถูกเลือก"
-        var notSelectedSurvivors = activeSurvivors
-            .Where(s => !selectedSurvivor.Contains(s))
-            .ToList();
+        var notSelectedSurvivors = notSelectedSurvivor;
         float totalSupplyConsumption = notSelectedSurvivors.Count * CurrentConfig.SupplyConsumptionPerPerson;
         if (IsSkiped)//ถ้า SkipExpedition จะมีการลด Penalty ในการบริโภคอาหาร (Mechanic: Skip Expedition Penalty Reduction)
         {
             totalSupplyConsumption *= CurrentConfig.SkipExpeditionPenaltyMultiplier;
         }
-        RemoveSupply(notSelectedSurvivors.Count * CurrentConfig.SupplyConsumptionPerPerson);
+        RemoveSupply(totalSupplyConsumption);
 
         foreach (var survivor in notSelectedSurvivors)
         {

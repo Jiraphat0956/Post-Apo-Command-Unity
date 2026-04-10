@@ -33,13 +33,14 @@ public class ResultPanel: UIPanel
         string displayMessage = string.Empty;
         if (result.IsSuccess)
         {
-            displayMessage += "Expedition Successful!\n";
+            displayMessage += "<color=green>Expedition Successful!</color>\n";
             displayMessage += $"Supply Gained: {result.SupplyGained}\n";
         }
         else
         {
-            displayMessage += "Expedition Failed.\n";
+            displayMessage += "<color=red>Expedition Failed.</color>\n";
         }
+        displayMessage += "Supply Used: " + result.SupplyUsed + "\n";
         displayMessage += "Log:\n" + result.Log + "\n";
         foreach (string status in result.StatusUpdates)
         {

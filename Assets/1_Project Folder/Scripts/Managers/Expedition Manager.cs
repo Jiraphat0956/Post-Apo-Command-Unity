@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static ExpeditionManager;
+using static UnityEngine.Rendering.STP;
 
 public class ExpeditionManager : Singleton<ExpeditionManager>
 {
@@ -115,6 +116,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             IsSuccess = isSuccess,
             Log = isSuccess ? "Mission Accomplished" : "Mission Failed",
             SupplyGained = supplyFound,
+            SupplyUsed = GameManager.Instance.notSelectedSurvivor.Count * config.SupplyConsumptionPerPerson,
             StatusUpdates = updates,
             FoundSurvivor = foundSurvivor
         };
@@ -122,11 +124,14 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
     }
     public void SkipExpedition()
     {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
+
         CurrentResult = new ExpeditionResult
         {
             IsSuccess = false,
             Log = "Expedition Skipped",
             SupplyGained = 0,
+            SupplyUsed = GameManager.Instance.notSelectedSurvivor.Count * config.SupplyConsumptionPerPerson * config.SkipExpeditionPenaltyMultiplier,
             StatusUpdates = new List<string> { "The team decided to skip this mission." }
         };
         OnExpeditionComplete?.Invoke(CurrentResult);
@@ -149,6 +154,7 @@ public struct ExpeditionResult
     public bool IsSuccess;
     public string Log;
     public float SupplyGained;
+    public float SupplyUsed;
     public List<string> StatusUpdates; // เก็บเหตุการณ์ที่เกิดขึ้นกับแต่ละคน
     public SurvivorTemplate FoundSurvivor;
 }
