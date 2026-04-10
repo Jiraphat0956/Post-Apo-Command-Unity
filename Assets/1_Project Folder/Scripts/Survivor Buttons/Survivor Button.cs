@@ -1,8 +1,11 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SurvivorButton : MonoBehaviour
+public class SurvivorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     ActiveSurvivor _info;
     [SerializeField] bool isSelectedButton; // กำหนดใน Inspector ว่าปุ่มนี้เป็นปุ่มสำหรับคนที่ถูกเลือกอยู่หรือไม่
@@ -45,5 +48,33 @@ public class SurvivorButton : MonoBehaviour
     void DeselectThisSurvivor()
     {
         GameManager.Instance.RemoveSelectedSurvivor(_info);
+    }
+    IEnumerator ShowInfoWindow()
+    {
+        string info = $"{_info.Name}\n" +
+                        $"Description: {_info.Description}\n" +
+                        $"Health: {_info.CurrentHealth}/{_info.Stats.MaxHealth}\n" +
+                        $"Fatigue: {_info.Fatigue}%\n" +
+                        $"Strength: {_info.Stats.Strength}\n" +
+                        $"Perception: {_info.Stats.Perception}\n" +
+                        $"Agility: {_info.Stats.Agility}";
+        while (true)
+        {
+
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            UIManager.OnShowInfoWindow?.Invoke(info, mousePos);
+            yield return null;
+        }
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ShowInfoWindow());
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        StopAllCoroutines();
+        UIManager.OnHideInfoWindow?.Invoke();
     }
 }

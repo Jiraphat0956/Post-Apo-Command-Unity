@@ -1,8 +1,13 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
+    [SerializeField] TextMeshProUGUI infoText;
+    [SerializeField] RectTransform infoWindow;
+    [SerializeField] RectTransform infoWindowAnchor;
 
     [SerializeField] List<UIPanel> panels;
 
@@ -10,6 +15,9 @@ public class UIManager : MonoBehaviour
     PreparePanel _preparePanel;
     ExpeditionPanel _expeditionPanel;
     ResultPanel _resultPanel;
+
+    public static Action<string, Vector2> OnShowInfoWindow;
+    public static Action OnHideInfoWindow;
 
     private void Awake()
     {
@@ -28,6 +36,9 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnGameOver += _resultPanel.DisplayGameOver;
         ExpeditionManager.Instance.OnAreaChange += _preparePanel.UpdateAreaInfo;
         ExpeditionManager.Instance.OnExpeditionComplete += _resultPanel.DisplayResult;
+
+        OnShowInfoWindow += ShowInfoWindow;
+        OnHideInfoWindow += HideInfoWindow;
     }
     void ChangeUIPanel(GameState gameState)
     {
@@ -54,5 +65,19 @@ public class UIManager : MonoBehaviour
         {
             panel.gameObject.SetActive(panel == panelToShow);
         }
+    }
+
+    public void ShowInfoWindow(string info, Vector2 mousePosition)
+    {
+        infoText.text = info;
+        infoWindow.gameObject.SetActive(true);
+        infoWindow.sizeDelta = new Vector2(infoText.preferredWidth > 450 ? 450 : infoText.preferredWidth, infoText.preferredHeight);
+
+        infoWindowAnchor.transform.position = new Vector2(mousePosition.x, mousePosition.y);
+
+    }
+    public void HideInfoWindow()
+    {
+        infoWindow.gameObject.SetActive(false);
     }
 }
