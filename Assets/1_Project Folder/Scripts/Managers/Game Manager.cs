@@ -152,7 +152,7 @@ public class GameManager : Singleton<GameManager>
         else if (activeSurvivors.Count <= 0)
             return "<color=red>All survivors have perished!</color>";
         else if (CurrentDay >= CurrentConfig.TargetDayToWin)
-            return "<color=green>Congratulations! You've survived until the target day!</color>";
+            return "<color=green>Congratulations! You've survived until the target area!</color>";
         return "Game is still ongoing.";
     }
 

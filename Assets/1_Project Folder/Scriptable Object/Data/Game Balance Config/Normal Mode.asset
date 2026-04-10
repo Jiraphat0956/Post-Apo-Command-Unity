@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85e815358dd2f24889cf7d4dd82f71f, type: 3}
   m_Name: Normal Mode
   m_EditorClassIdentifier: Assembly-CSharp::GameBalanceConfig
-  StartingSupply: 10
+  StartingSupply: 50
   StartingSurvivorCount: 3
   TargetDayToWin: 20
   BaseFatigueGain: 20
@@ -20,7 +20,7 @@ MonoBehaviour:
   RestRecoveryRate: 25
   HealthRecoveryRate: 10
   MaxPartySize: 3
-  SupplyConsumptionPerPerson: 1
+  SupplyConsumptionPerPerson: 5
   SkipExpeditionPenaltyMultiplier: 2
   NewSurvivorChance: 0.25
   MaxActiveSurvivor: 15

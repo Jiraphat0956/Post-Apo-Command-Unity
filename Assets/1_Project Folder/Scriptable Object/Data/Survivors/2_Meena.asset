@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: Bruiser
+  m_Name: 2_Meena
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Bruiser
+  DefaultName: Meena
+  Description: A seasoned forest hunter who possesses an uncanny ability to spot
+    things others miss. Her keen eyes can pierce through the thickest fog or the
+    darkest corners.
   BaseStats:
-    Strength: 8
-    Perception: 2
-    Agility: 1
+    Strength: 10
+    Perception: 45
+    Agility: 15
     MaxHealth: 100

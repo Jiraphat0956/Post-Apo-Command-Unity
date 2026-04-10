@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
+  m_Name: 8_Sky Scraper Rooftop
+  m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  AreaName: Sky Scraper Rooftop
+  Description: A wind-swept platform high above the city. The narrow catwalks between
+    towers are terrifying, demanding speed and nerves of steel.
+  Stats:
+    RequiredStrength: 10
+    RequiredPerception: 20
+    RequiredAgility: 55
+    BaseRisk: 0.65
+  FoodRewardRange: 35

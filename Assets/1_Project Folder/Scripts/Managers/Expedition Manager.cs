@@ -27,14 +27,14 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             Debug.LogError("No areas available in GameManager!");
         }
     }
-    public void ExecutePartyExpedition(List<ActiveSurvivor> party)
+    public float GetSuccessChance(List<ActiveSurvivor> party)
     {
+        if (party == null || party.Count == 0) return 0f;
+
         GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         AreaTemplate area = CurrentArea;
-        // 1. รวม Stat ของทุกคนในทีม
-        int totalStr = 0;
-        int totalPer = 0;
-        int totalAgi = 0;
+
+        int totalStr = 0, totalPer = 0, totalAgi = 0;
         float totalFatigue = 0;
 
         foreach (var member in party)
@@ -44,29 +44,53 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             totalAgi += member.Stats.Agility;
             totalFatigue += member.Fatigue;
         }
-        // คำนวณความเหนื่อยเฉลี่ยของทีม
-        float avgFatigue = totalFatigue / party.Count;
 
-        // 2. คำนวณโอกาสสำเร็จพื้นฐาน
-        float successChance = 1.0f;
+        float successChance = 0;
+        float totalRequirement = area.Stats.RequiredStrength + area.Stats.RequiredPerception + area.Stats.RequiredAgility;
+
+        // --- คำนวณความสำเร็จพื้นฐานจาก Stat ---
+        // ใช้ Mathf.Min เพื่อให้แต่ละ Stat ส่งคะแนนให้ได้ไม่เกินที่โควต้ากำหนด
+        successChance += Mathf.Min(totalStr, area.Stats.RequiredStrength);
+        successChance += Mathf.Min(totalPer, area.Stats.RequiredPerception);
+        successChance += Mathf.Min(totalAgi, area.Stats.RequiredAgility);
+
+        // ทำเป็น Ratio (0.0 - 1.0)
+        successChance = (successChance / totalRequirement);
+
+        // --- คำนวณ Fatigue Penalty ---
+        // สมมติค่าเฉลี่ยความเหนื่อย 20 จะได้ค่า 0.2f
+        float avgFatigue = totalFatigue / party.Count;
+        float fatiguePenaltyPercent = (avgFatigue / 100f);
+
+        // --- หักลบแบบ % โดยเอา successChance ตั้ง ---
+        // สูตร: โอกาสเดิม * (1 - %ที่จะลด)
+        // เช่น ถ้า successChance คือ 0.8 (80%) และเหนื่อย 0.2 (20%) 
+        // ผลคือ 0.8 * (1 - 0.2) = 0.64 (เหลือ 64%)
+        successChance = successChance * (1f - fatiguePenaltyPercent);
+
+        return Mathf.Clamp01(successChance);
+    }
+    public void ExecutePartyExpedition(List<ActiveSurvivor> party)
+    {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
+        AreaTemplate area = CurrentArea;
         List<string> updates = new List<string>();
 
-        // หักลบโอกาสสำเร็จจากความเหนื่อย (ยิ่งเหนื่อยมาก โอกาสล้มเหลวยิ่งสูง)
-        float fatiguePenalty = (avgFatigue / 100f) * config.MaxFatiguePenalty; // สูงสุดหัก 99%
-        successChance -= fatiguePenalty;
+        // --- ใช้ฟังก์ชัน GetSuccessChance มาคำนวณเพื่อให้ค่าตรงกัน 100% ---
+        float successChance = GetSuccessChance(party);
+
+        // คำนวณความเหนื่อยเฉลี่ยเพื่อแสดง Log เท่านั้น
+        float avgFatigue = 0;
+        foreach (var m in party) avgFatigue += m.Fatigue;
+        avgFatigue /= party.Count;
 
         if (avgFatigue > 50f)
-            updates.Add($"The team is exhausted, decreasing success chance by {fatiguePenalty * 100:F0}%.");
+            updates.Add($"The team is exhausted, heavily affecting performance.");
 
-        // ตรวจสอบ Stat ตามเดิม
-        if (totalStr < area.Stats.RequiredStrength)
-        {
-            float penalty = (area.Stats.RequiredStrength - totalStr) * 0.1f;
-            successChance -= penalty;
-            updates.Add($"Manpower insufficient. (Success Chance -{penalty * 100}%)");
-        }
+        // (สร้าง Log แจ้งเตือนเรื่อง Stat ที่ไม่พอ - สามารถใส่ Logic เช็คสั้นๆ ตรงนี้เพื่อเพิ่มข้อความใน Log ได้)
+        CheckStatDeficiency(party, area, updates);
 
-
+        Debug.Log($"Calculated Success Chance: {successChance * 100:F2}%");
         // 3. ทอยลูกเต๋าตัดสินผล (Final Roll)
         bool isSuccess = Random.value <= successChance;
         float supplyFound = 0;
@@ -83,7 +107,7 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
                 if (templates.Count > 0)
                 {
                     foundSurvivor = templates[Random.Range(0, templates.Count)];
-                    updates.Add($"<color=green>New Survivor Found: {foundSurvivor.name}!</color>");
+                    updates.Add($"<color=green>New Survivor Found: {foundSurvivor.DefaultName}!</color>");
                 }
             }
         }
@@ -121,6 +145,16 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             FoundSurvivor = foundSurvivor
         };
         OnExpeditionComplete?.Invoke(CurrentResult);
+    }
+    // ฟังก์ชันเสริมสำหรับเขียน Log ในหน้า Result ให้ละเอียดขึ้น
+    void CheckStatDeficiency(List<ActiveSurvivor> party, AreaTemplate area, List<string> updates)
+    {
+        int s = 0, p = 0, a = 0;
+        foreach (var m in party) { s += m.Stats.Strength; p += m.Stats.Perception; a += m.Stats.Agility; }
+
+        if (s < area.Stats.RequiredStrength) updates.Add("- Low Manpower (Strength deficiency)");
+        if (p < area.Stats.RequiredPerception) updates.Add("- Poor Visibility (Perception deficiency)");
+        if (a < area.Stats.RequiredAgility) updates.Add("- Difficult Terrain (Agility deficiency)");
     }
     public void SkipExpedition()
     {

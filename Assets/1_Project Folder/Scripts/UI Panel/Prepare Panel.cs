@@ -10,6 +10,7 @@ public class PreparePanel : UIPanel
     [SerializeField] TextMeshProUGUI areaDetailText;
     [SerializeField] TextMeshProUGUI totalSupplyText;
     [SerializeField] TextMeshProUGUI dayText;
+    [SerializeField] TextMeshProUGUI successChanceText;
 
     [SerializeField] Button startExpeditionButton;
     [SerializeField] Button skipExpeditionButton;
@@ -72,7 +73,21 @@ public class PreparePanel : UIPanel
         RenderButtons(notSelectedSurvivorButtonList, availableSurvivors);
         RenderButtons(selectedSurvivorButtonList, currentSelection);
 
+        UpdateStatRequrirementColor();
         UpdateExpeditionButton(selectedList);
+
+        successChanceText.text = $"Success Chance: {ExpeditionManager.Instance.GetSuccessChance(selectedList) * 100f:0}%";
+    }
+    public void UpdateStatRequrirementColor()
+    {
+        var selectedList = GameManager.Instance.selectedSurvivor;
+        int totalStr = selectedList.Sum(s => s.Stats.Strength);
+        int totalPer = selectedList.Sum(s => s.Stats.Perception);
+        int totalAgi = selectedList.Sum(s => s.Stats.Agility);
+        var area = ExpeditionManager.Instance.CurrentArea;
+        strengethText.color = totalStr >= area.Stats.RequiredStrength ? Color.green : Color.red;
+        perceptionText.color = totalPer >= area.Stats.RequiredPerception ? Color.green : Color.red;
+        agilityText.color = totalAgi >= area.Stats.RequiredAgility ? Color.green : Color.red;
     }
     private void RenderButtons(List<Button> buttonList, List<ActiveSurvivor> dataList)
     {

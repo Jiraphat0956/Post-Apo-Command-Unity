@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
-  m_Name: Radioactive Lab
+  m_Name: 6_Dark Sewers
   m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
-  AreaName: Radioactive Lab
-  Description: Radioactive Lab
+  AreaName: Dark Sewers
+  Description: A damp, lightless underworld filled with slippery surfaces and toxic
+    runoff. One wrong step could lead to a very long, dangerous fall.
   Stats:
-    RequiredStrength: 1
-    RequiredPerception: 7
-    RequiredAgility: 2
-    BaseRisk: 0.357
-  FoodRewardRange: 2
+    RequiredStrength: 25
+    RequiredPerception: 25
+    RequiredAgility: 30
+    BaseRisk: 0.55
+  FoodRewardRange: 30

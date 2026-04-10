@@ -15,8 +15,82 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 1675682d1de774241996dc53db016283
   m_SerializeEntries:
+  - m_GUID: 03f17b299bfb4c24dbf415bbe88a030c
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/1_Old Pharmacy.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 139a25952dce08844a344e612f420563
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/4_Big Bear.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a1736840f33732488495d90d1974dc6
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/10_Doc.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2034abf1ddc40c648b870f5cf2838de5
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/8_Tara.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 266f82f1243ab7243a2f1d6232524f9e
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/8_Sky Scraper
+      Rooftop.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 391bbf76fd9ebf1498d5f0c8e8035ea7
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/10_Military Outpost.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45dce310f01c7a04c9e2d7345a8aadcb
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/6_Dark Sewers.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4acbaa10f21d027468c7389be342ccdb
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/7_Yod.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 586e6ad433fe1544e9adbd5456b3f161
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/9_Non.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73f7261b5508bec419485dd0584b7dae
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/5_Ruined Bridge.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d41ca09051fde44090fabfb71427b0f
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/9_Construction
+      Site.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 81e7062577c26574dada807fa067c089
     m_Address: Assets/1_Project Folder/Resource/Data/Survivors/Scout.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8520d1206ede6b34ca27172c80503298
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/5_Linn.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - SurvivorData
@@ -27,11 +101,23 @@ MonoBehaviour:
     m_SerializedLabels:
     - SurvivorData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0cffde1d60300a49b702b5a24fc886a
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/7_Flooded Factory.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1f0ec13ecd0ab0428244ba42cb3a0ed
     m_Address: Assets/1_Project Folder/Resource/Data/Survivors/Bruiser.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - SurvivorData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb22e525ffbc2ce4fa960fed1697ef14
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Areas/2_Subway Tunnel.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AreaData
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d02e5147db1169f499df11aa7331abaf
     m_Address: Assets/1_Project Folder/Resource/Data/Game Balance Config/Normal Mode.asset
@@ -44,6 +130,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - AreaData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f2231f39ae5aef74596aaaee47a55632
+    m_Address: Assets/1_Project Folder/Scriptable Object/Data/Survivors/6_Sam.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SurvivorData
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f30ba2ee27a4f2a44a0ce32fb0535d5b
     m_Address: Assets/1_Project Folder/Resource/Data/Areas/Radioactive Lab.asset

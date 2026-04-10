@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
+  m_Name: 3_Dense Fog Forest
+  m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  AreaName: Dense Fog Forest
+  Description: A woodland shrouded in an unnatural, heavy mist. Without a sharp eye
+    for landmarks, a team could wander in circles for days.
+  Stats:
+    RequiredStrength: 10
+    RequiredPerception: 45
+    RequiredAgility: 10
+    BaseRisk: 0.4
+  FoodRewardRange: 20

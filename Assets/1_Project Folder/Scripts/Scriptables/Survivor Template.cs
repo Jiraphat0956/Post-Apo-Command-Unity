@@ -4,5 +4,6 @@ using UnityEngine;
 public class SurvivorTemplate : ScriptableObject
 {
     public string DefaultName;
+    [TextArea] public string Description;
     public SurvivorStats BaseStats;
 }

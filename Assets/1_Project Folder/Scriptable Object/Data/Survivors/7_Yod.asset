@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: Runner
+  m_Name: 7_Yod
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Runner
+  DefaultName: Yod
+  Description: A veteran neighborhood watchman who has spent decades observing people.
+    Little escapes his notice, making him an expert at identifying potential threats.
   BaseStats:
-    Strength: 1
-    Perception: 3
-    Agility: 8
-    MaxHealth: 100
+    Strength: 25
+    Perception: 30
+    Agility: 10
+    MaxHealth: 110
