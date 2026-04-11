@@ -1,30 +1,34 @@
 # Post-Apo-Command-Unity
 
 ## 🎮 Project Overview
-**Post-Apo-Command-Unity** is a physics-inspired resource management demo built in **Unity**. Set in a post-nuclear fallout world (inspired by S.T.A.L.K.E.R.), players take the role of a Shelter Leader responsible for the survival of a small group of survivors.
+**Post-Apo-Command-Unity** is a strategic resource management demo built in **Unity**. Set **5 years after a global nuclear cataclysm**, players take on the role of a **Survivor Group Leader**. Your goal is to lead your people across a radioactive wasteland to a final extraction point signaled over a faint radio broadcast.
 
-## 🧠 Leadership Learning Objectives
-[cite_start]This project focuses on translating core leadership skills into gameplay mechanics[cite: 13, 15]:
-* [cite_start]**Strategic Delegation:** Assigning survivors to expeditions based on their unique stats (Strength, Perception, Agility)[cite: 13].
-* [cite_start]**Risk Management:** Balancing the potential reward of new resources against the high risk of losing team members[cite: 13].
-* **Resource Prioritization:** Managing food consumption as the team grows, forcing difficult decisions on whether to accept new survivors.
+## 🧠 Leadership & Strategy Objectives
+This project translates core management and decision-making skills into gameplay:
+* **Dynamic Delegation:** Strategically forming teams of **1 to 3 survivors**. Leaders must decide whether to send a full squad for safety or a solo scout to conserve dwindling supplies.
+* **Risk vs. Efficiency:** Balancing the **Fatigue System** against expedition needs. Pushing exhausted survivors increases the risk of severe injury or disappearance.
+* **Resource Logistics:** Managing "Supplies" for daily consumption. Players must decide when to push forward or when to take a **Massive Detour (Skip)** to avoid lethal areas at the cost of high resource consumption.
 
 ## ⚙️ Core Mechanics
-* **Stat-Based Expedition System:** Success rates are mathematically tied to how well a survivor's skills match the area's hazards.
-* **Permadeath:** Every decision has permanent consequences; losing a team member affects future survival capability.
-* **Resource Decay:** Food and supplies dwindle based on the current population, creating a constant "Survival vs. Growth" dilemma.
+* **Proportional Success Logic:** Success is calculated by the ratio of the team's combined Stats (Strength, Perception, Agility) against Area Requirements. 
+* **Fatigue Penalty:** Every mission adds exhaustion. High fatigue acts as a percentage-based multiplier that reduces the entire team’s Success Chance.
+* **Detour System:** Players can choose to bypass dangerous areas. This "Skip" mechanic simulates traveling around a hazard, consuming significantly more supplies without gaining any resources.
+* **Injury & Permanent Loss:** Low-success expeditions carry the heavy weight of survivors sustaining severe injuries or potentially being lost during the mission.
 
 ## 🛠️ Technical Details
-* [cite_start]**Engine:** Unity 2022.x (or your version) [cite: 24]
-* **Language:** C#
-* **Key Scripts:** `ExpeditionManager.cs` (Handles the success/failure logic based on stat gaps).
-* Utilized ScriptableObjects for both Survivor and Area data management, allowing for a decoupled architecture where game balance can be tuned independently from the core logic.
+* **Engine:** Unity 6000.3.1f1
+* **Architecture:** Decoupled system using **ScriptableObjects** for Survivor Templates and Area Data, allowing for easy balancing without touching core code.
+* **Visuals:** Custom character portraits and atmospheric area art designed to enhance immersion and role-clarity.
 
-## 🤖 AI Tool Usage Note
-[cite_start]In compliance with the project brief[cite: 41], the following AI tools were used:
-* **Gemini/ChatGPT:** Assisted in architecting the mathematical scaling for the expedition success logic to ensure fair but challenging gameplay.
+## 🤖 AI Tool Usage & Collaboration
+This project was developed with a "Human-AI Co-pilot" approach:
+* **ChatGPT:** Used for initial world-building, narrative conceptualization, and architectural planning of the game's core systems.
+* **GitHub Copilot:** Integrated into the development workflow to assist in writing efficient C# scripts and implementing game systems.
+* **Gemini:** Assisted in refining complex mathematical formulas for the Success Logic and the Fatigue System to ensure balanced gameplay.
 
 ## 🚀 How to Play
-1. Clone the repository.
-2. Open the project in Unity.
-3. Press **Play** and use the UI to assign survivors to available map locations.
+1. **Read the Signal:** Check your current day and the target day to reach the extraction point.
+2. **Assemble the Team:** Select 1-3 survivors based on their **Job Titles** (e.g., Heavy Lifter, Wilderness Hunter).
+3. **Analyze the Area:** Compare your team's total stats with the area's requirements.
+4. **Decide:** Execute the mission to gain supplies or take a costly detour if the risk is too high.
+5. **Manage Rest:** Ensure tired survivors stay back in the camp to recover for future challenges.
