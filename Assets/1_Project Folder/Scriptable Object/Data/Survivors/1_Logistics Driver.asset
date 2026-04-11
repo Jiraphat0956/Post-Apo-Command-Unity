@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: 1_Logistics Driver
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
+  Sprite: {fileID: 21300000, guid: 111ada0df84705244aa8d215dfcdbbef, type: 3}
   DefaultName: Logistics Driver
   Description: A former logistics driver who spent years navigating treacherous routes.
     His physical endurance and familiarity with heavy lifting make him a reliable

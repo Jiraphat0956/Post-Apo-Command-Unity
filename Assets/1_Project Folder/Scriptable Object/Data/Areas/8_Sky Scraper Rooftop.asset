@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
   m_Name: 8_Sky Scraper Rooftop
   m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  Sprite: {fileID: 21300000, guid: dac16c406a8b9984999bded18b9c634f, type: 3}
   AreaName: Sky Scraper Rooftop
   Description: A wind-swept platform high above the city. The narrow catwalks between
     towers are terrifying, demanding speed and nerves of steel.

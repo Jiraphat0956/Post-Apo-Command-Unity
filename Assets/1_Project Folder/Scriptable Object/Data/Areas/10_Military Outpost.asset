@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
   m_Name: 10_Military Outpost
   m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  Sprite: {fileID: 21300000, guid: 43dfdc9e4fe11494399bc2857318bed2, type: 3}
   AreaName: Military Outpost
   Description: A fortified perimeter littered with old sensors and dormant traps.
     Only a team with high awareness and tactical movement can survive this place.

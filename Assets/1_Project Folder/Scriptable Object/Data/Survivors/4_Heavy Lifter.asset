@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: 4_Heavy Lifter
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
+  Sprite: {fileID: 21300000, guid: 1551112bf6dade348bbce66d64ff0e6d, type: 3}
   DefaultName: Heavy Lifter
   Description: A man of immense stature and brute strength. While not the fastest,
     he can move debris and break through barricades that would stop a vehicle.

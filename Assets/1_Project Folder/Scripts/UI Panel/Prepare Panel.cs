@@ -12,6 +12,8 @@ public class PreparePanel : UIPanel
     [SerializeField] TextMeshProUGUI dayText;
     [SerializeField] TextMeshProUGUI successChanceText;
 
+    [SerializeField] Image areaImage;
+
     [SerializeField] Button startExpeditionButton;
     [SerializeField] Button skipExpeditionButton;
 
@@ -52,6 +54,8 @@ public class PreparePanel : UIPanel
         strengethText.text = area.Stats.RequiredStrength.ToString();
         perceptionText.text = area.Stats.RequiredPerception.ToString();
         agilityText.text = area.Stats.RequiredAgility.ToString();
+
+        areaImage.sprite = area.Sprite;
     }
     public void UpdateSurvivorList()
     {

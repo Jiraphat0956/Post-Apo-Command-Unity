@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: 6_Street Racer
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
+  Sprite: {fileID: 21300000, guid: ff6dc5609a5c3fd418218149d5aa9af1, type: 3}
   DefaultName: Street Racer
   Description: A rebellious street racer who lived for the adrenaline of high-speed
     chases. His reflexes are lightning-fast, though his recklessness often leads

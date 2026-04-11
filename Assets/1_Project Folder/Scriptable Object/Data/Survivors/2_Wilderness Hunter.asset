@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: 2_Wilderness Hunter
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
+  Sprite: {fileID: 21300000, guid: 5462c0c147dbe4049bcadffa9b2c8b6e, type: 3}
   DefaultName: Wilderness Hunter
   Description: A seasoned forest hunter who possesses an uncanny ability to spot
     things others miss. Her keen eyes can pierce through the thickest fog or the

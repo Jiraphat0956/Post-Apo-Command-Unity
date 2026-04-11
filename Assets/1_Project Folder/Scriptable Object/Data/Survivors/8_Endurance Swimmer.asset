@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
   m_Name: 8_Endurance Swimmer
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
+  Sprite: {fileID: 21300000, guid: cde07e0c342654c498c875b779bbfe54, type: 3}
   DefaultName: Endurance Swimmer
   Description: A competitive long-distance swimmer known for her incredible lung
     capacity and stamina. She can push through physical exhaustion longer than most.

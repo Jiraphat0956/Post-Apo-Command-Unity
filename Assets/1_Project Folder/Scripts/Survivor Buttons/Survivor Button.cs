@@ -15,6 +15,7 @@ public class SurvivorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] TextMeshProUGUI agilityText;
     [SerializeField] Image hpGage;
     [SerializeField] Image staminaGage;
+    [SerializeField] Image survivorImage;
 
     Button _button;
 
@@ -25,11 +26,15 @@ public class SurvivorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     private void OnDisable()
     {
+        StopAllCoroutines();
+        UIManager.OnHideInfoWindow?.Invoke();
+
         _button.onClick.RemoveAllListeners();
     }
     public void SetupInfo(ActiveSurvivor info)
     {
         this._info = info;
+        survivorImage.sprite = info.Sprite;
         nameText.text = info.Name;
         hpGage.fillAmount = info.CurrentHealth / info.Stats.MaxHealth;
         staminaGage.fillAmount = 1 - (info.Fatigue / 100);

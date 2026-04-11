@@ -3,6 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class ActiveSurvivor
 {
+    public Sprite Sprite;
     public string Name;
     public string Description;
     public SurvivorStats Stats;
@@ -12,6 +13,7 @@ public class ActiveSurvivor
                                               // Constructor: สร้างตัวละครจริงจาก Template
     public ActiveSurvivor(SurvivorTemplate template)
     {
+        this.Sprite = template.Sprite;
         this.Name = template.DefaultName;
         this.Description = template.Description;
         this.Stats = template.BaseStats;

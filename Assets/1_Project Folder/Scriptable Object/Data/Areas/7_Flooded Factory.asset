@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
   m_Name: 7_Flooded Factory
   m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  Sprite: {fileID: 21300000, guid: af9b79cfbd2177b40bb8d25424da70f9, type: 3}
   AreaName: Flooded Factory
   Description: The lower levels are submerged in murky water. Retrieving supplies
     requires moving heavy, waterlogged machinery and debris.

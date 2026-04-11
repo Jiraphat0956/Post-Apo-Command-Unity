@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
   m_Name: 1_Old Pharmacy
   m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  Sprite: {fileID: 21300000, guid: e9d5ef2dabf36cf4abea8efbd4d02a7a, type: 3}
   AreaName: Old Pharmacy
   Description: A small, dust-covered chemist's shop. While most medicine is gone,
     valuable supplies are still hidden in hard-to-reach nooks and crannies.
