@@ -23,5 +23,5 @@ MonoBehaviour:
   SupplyConsumptionPerPerson: 5
   SkipExpeditionPenaltyMultiplier: 2
   NewSurvivorChance: 0.25
-  MaxActiveSurvivor: 15
+  MaxActiveSurvivor: 10
   MaxFatiguePenalty: 0.4

@@ -221,4 +221,9 @@ public class GameManager : Singleton<GameManager>
         TotalSupply -= amount;
     }
     #endregion
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

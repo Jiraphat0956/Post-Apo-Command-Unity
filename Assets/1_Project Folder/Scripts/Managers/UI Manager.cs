@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] TextMeshProUGUI infoText;
     [SerializeField] RectTransform infoWindow;
     [SerializeField] RectTransform infoWindowAnchor;
+
+    [SerializeField] Button closeGameButton;
 
     [SerializeField] List<UIPanel> panels;
 
@@ -39,6 +42,8 @@ public class UIManager : Singleton<UIManager>
 
         OnShowInfoWindow += ShowInfoWindow;
         OnHideInfoWindow += HideInfoWindow;
+
+        closeGameButton.onClick.AddListener(GameManager.Instance.ExitGame);
     }
     void ChangeUIPanel(GameState gameState)
     {
