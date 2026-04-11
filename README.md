@@ -22,9 +22,10 @@ This project translates core management and decision-making skills into gameplay
 
 ## 🤖 AI Tool Usage & Collaboration
 This project was developed with a "Human-AI Co-pilot" approach:
-* **ChatGPT:** Used for initial world-building, narrative conceptualization, and architectural planning of the game's core systems.
+* **ChatGPT:** Used for early world-building, narrative conceptualization, and architectural planning of core systems.
 * **GitHub Copilot:** Integrated into the development workflow to assist in writing efficient C# scripts and implementing game systems.
-* **Gemini:** Assisted in refining complex mathematical formulas for the Success Logic and the Fatigue System to ensure balanced gameplay.
+* **Gemini:** Assisted in refining complex mathematical formulas for the Success Logic and the Fatigue System.
+* **Nanobanana:** All visual asset creation, including the specialized character portraits (such as those for the Heavy Lifter and Urban Freerunner) and the immersive area art (like the Ruined Bridge and Old Pharmacy).
 
 ## 🚀 How to Play
 1. **Read the Signal:** Check your current day and the target day to reach the extraction point.
