@@ -58,7 +58,7 @@ public class SurvivorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         string info = $"<color=green>{_info.Name}</color>\n" +
                         $"Description: {_info.Description}\n" +
-                        $"<color=green>----------------------------------------------</color>\n" +
+                        $"<color=green>---------------------------------------</color>\n" +
                         $"Health: {_info.CurrentHealth}/{_info.Stats.MaxHealth}\n" +
                         $"Fatigue: {_info.Fatigue}%\n" +
                         $"Strength: {_info.Stats.Strength}\n" +

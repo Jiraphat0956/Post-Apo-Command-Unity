@@ -38,7 +38,7 @@ public class PreparePanel : UIPanel
     public void UpdateTotalSupply()
     {
         var totalSupply = GameManager.Instance.TotalSupply;
-        totalSupplyText.text = $"Supply: {totalSupply}";
+        totalSupplyText.text = $"Supply: {totalSupply:F2}";
     }
     public void UpdateDay()
     {
