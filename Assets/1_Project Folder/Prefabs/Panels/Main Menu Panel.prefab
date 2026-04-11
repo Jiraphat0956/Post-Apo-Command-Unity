@@ -589,7 +589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Last Relay: Radioactive Route'
+  m_text: Post-Apocalyptic Command
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ac0230dfb9bbfbf4d9cca948e2a515ab, type: 2}
   m_sharedMaterial: {fileID: 1001417047620906956, guid: ac0230dfb9bbfbf4d9cca948e2a515ab, type: 2}
