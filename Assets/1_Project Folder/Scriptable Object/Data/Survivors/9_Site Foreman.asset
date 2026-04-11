@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 6_Sam
+  m_Name: 9_Site Foreman
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Sam
-  Description: A rebellious street racer who lived for the adrenaline of high-speed
-    chases. His reflexes are lightning-fast, though his recklessness often leads
-    to trouble.
+  DefaultName: Site Foreman
+  Description: A grizzled construction worker used to grueling labor under the sun.
+    His grip is like iron, and his strength is essential for clearing blocked paths.
   BaseStats:
-    Strength: 10
-    Perception: 15
-    Agility: 50
-    MaxHealth: 80
+    Strength: 45
+    Perception: 10
+    Agility: 10
+    MaxHealth: 140

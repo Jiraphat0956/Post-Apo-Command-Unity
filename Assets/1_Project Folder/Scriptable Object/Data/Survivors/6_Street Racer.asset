@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 8_Tara
+  m_Name: 6_Street Racer
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Tara
-  Description: A competitive long-distance swimmer known for her incredible lung
-    capacity and stamina. She can push through physical exhaustion longer than most.
+  DefaultName: Street Racer
+  Description: A rebellious street racer who lived for the adrenaline of high-speed
+    chases. His reflexes are lightning-fast, though his recklessness often leads
+    to trouble.
   BaseStats:
-    Strength: 25
+    Strength: 10
     Perception: 15
-    Agility: 25
-    MaxHealth: 130
+    Agility: 50
+    MaxHealth: 80

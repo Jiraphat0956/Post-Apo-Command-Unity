@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 5_Linn
+  m_Name: 4_Heavy Lifter
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Linn
-  Description: A former undercover operative with a highly disciplined mind. She
-    is a versatile survivor who adapts to any situation with calculated precision.
+  DefaultName: Heavy Lifter
+  Description: A man of immense stature and brute strength. While not the fastest,
+    he can move debris and break through barricades that would stop a vehicle.
   BaseStats:
     Strength: 50
-    Perception: 25
-    Agility: 25
-    MaxHealth: 100
+    Perception: 5
+    Agility: 10
+    MaxHealth: 150

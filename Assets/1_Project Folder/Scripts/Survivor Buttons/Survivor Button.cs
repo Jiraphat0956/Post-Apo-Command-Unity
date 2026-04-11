@@ -51,8 +51,9 @@ public class SurvivorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     IEnumerator ShowInfoWindow()
     {
-        string info = $"{_info.Name}\n" +
+        string info = $"<color=green>{_info.Name}</color>\n" +
                         $"Description: {_info.Description}\n" +
+                        $"<color=green>----------------------------------------------</color>\n" +
                         $"Health: {_info.CurrentHealth}/{_info.Stats.MaxHealth}\n" +
                         $"Fatigue: {_info.Fatigue}%\n" +
                         $"Strength: {_info.Stats.Strength}\n" +

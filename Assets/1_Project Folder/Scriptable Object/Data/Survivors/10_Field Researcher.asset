@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 3_Jett
+  m_Name: 10_Field Researcher
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Jett
-  Description: A high-altitude free-runner who treats the ruins of the city like
-    his personal playground. He excels at reaching places that seem impossible to
-    others.
+  DefaultName: Field Researcher
+  Description: A meticulous medical professional who values detail above all else.
+    His ability to analyze environments and identify useful supplies is unmatched.
   BaseStats:
-    Strength: 15
-    Perception: 10
-    Agility: 45
+    Strength: 5
+    Perception: 30
+    Agility: 20
     MaxHealth: 90

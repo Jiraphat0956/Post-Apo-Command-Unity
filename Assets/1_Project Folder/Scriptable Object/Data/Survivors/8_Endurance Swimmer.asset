@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 2_Meena
+  m_Name: 8_Endurance Swimmer
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Meena
-  Description: A seasoned forest hunter who possesses an uncanny ability to spot
-    things others miss. Her keen eyes can pierce through the thickest fog or the
-    darkest corners.
+  DefaultName: Endurance Swimmer
+  Description: A competitive long-distance swimmer known for her incredible lung
+    capacity and stamina. She can push through physical exhaustion longer than most.
   BaseStats:
-    Strength: 10
-    Perception: 45
-    Agility: 15
-    MaxHealth: 100
+    Strength: 25
+    Perception: 15
+    Agility: 25
+    MaxHealth: 130

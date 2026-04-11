@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 4_Big Bear
+  m_Name: 1_Logistics Driver
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Big Bear
-  Description: A man of immense stature and brute strength. While not the fastest,
-    he can move debris and break through barricades that would stop a vehicle.
+  DefaultName: Logistics Driver
+  Description: A former logistics driver who spent years navigating treacherous routes.
+    His physical endurance and familiarity with heavy lifting make him a reliable
+    cornerstone for any team.
   BaseStats:
-    Strength: 50
-    Perception: 5
-    Agility: 10
-    MaxHealth: 150
+    Strength: 30
+    Perception: 15
+    Agility: 20
+    MaxHealth: 120

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 7_Yod
+  m_Name: 5_Field Operative
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Yod
-  Description: A veteran neighborhood watchman who has spent decades observing people.
-    Little escapes his notice, making him an expert at identifying potential threats.
+  DefaultName: Field Operative
+  Description: A former undercover operative with a highly disciplined mind. She
+    is a versatile survivor who adapts to any situation with calculated precision.
   BaseStats:
-    Strength: 25
-    Perception: 30
-    Agility: 10
-    MaxHealth: 110
+    Strength: 50
+    Perception: 25
+    Agility: 25
+    MaxHealth: 100

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3a010d91618f441b270a8b5571274b, type: 3}
-  m_Name: 1_Karn
+  m_Name: 2_Wilderness Hunter
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorTemplate
-  DefaultName: Karn
-  Description: A former logistics driver who spent years navigating treacherous routes.
-    His physical endurance and familiarity with heavy lifting make him a reliable
-    cornerstone for any team.
+  DefaultName: Wilderness Hunter
+  Description: A seasoned forest hunter who possesses an uncanny ability to spot
+    things others miss. Her keen eyes can pierce through the thickest fog or the
+    darkest corners.
   BaseStats:
-    Strength: 30
-    Perception: 15
-    Agility: 20
-    MaxHealth: 120
+    Strength: 10
+    Perception: 45
+    Agility: 15
+    MaxHealth: 100
