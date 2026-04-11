@@ -9,12 +9,21 @@ public class PreparePanel : UIPanel
     [SerializeField] TextMeshProUGUI areaNameText;
     [SerializeField] TextMeshProUGUI areaDetailText;
     [SerializeField] TextMeshProUGUI totalSupplyText;
+    [SerializeField] TextMeshProUGUI dayText;
+    [SerializeField] TextMeshProUGUI successChanceText;
+
+    [SerializeField] Image areaImage;
 
     [SerializeField] Button startExpeditionButton;
     [SerializeField] Button skipExpeditionButton;
 
     [SerializeField] List<Button> notSelectedSurvivorButtonList;
     [SerializeField] List<Button> selectedSurvivorButtonList;
+
+    [Header("Requirement Stats")]
+    [SerializeField] TextMeshProUGUI strengethText;
+    [SerializeField] TextMeshProUGUI perceptionText;
+    [SerializeField] TextMeshProUGUI agilityText;
 
     private void OnEnable()
     {
@@ -29,12 +38,24 @@ public class PreparePanel : UIPanel
     public void UpdateTotalSupply()
     {
         var totalSupply = GameManager.Instance.TotalSupply;
-        totalSupplyText.text = $"Total Supply: {totalSupply}";
+        totalSupplyText.text = $"Supply: {totalSupply:F2}";
     }
+    public void UpdateDay()
+    {
+        var currentDay = GameManager.Instance.CurrentDay;
+        var targetDay = GameManager.Instance.TargetDay;
+        dayText.text = $"Day {currentDay}/{targetDay}";
+    }
+
     public void UpdateAreaInfo(AreaTemplate area)
     {
         areaNameText.text = area.AreaName;
         areaDetailText.text = area.Description;
+        strengethText.text = area.Stats.RequiredStrength.ToString();
+        perceptionText.text = area.Stats.RequiredPerception.ToString();
+        agilityText.text = area.Stats.RequiredAgility.ToString();
+
+        areaImage.sprite = area.Sprite;
     }
     public void UpdateSurvivorList()
     {
@@ -56,7 +77,21 @@ public class PreparePanel : UIPanel
         RenderButtons(notSelectedSurvivorButtonList, availableSurvivors);
         RenderButtons(selectedSurvivorButtonList, currentSelection);
 
+        UpdateStatRequrirementColor();
         UpdateExpeditionButton(selectedList);
+
+        successChanceText.text = $"Success Chance: {ExpeditionManager.Instance.GetSuccessChance(selectedList) * 100f:0}%";
+    }
+    public void UpdateStatRequrirementColor()
+    {
+        var selectedList = GameManager.Instance.selectedSurvivor;
+        int totalStr = selectedList.Sum(s => s.Stats.Strength);
+        int totalPer = selectedList.Sum(s => s.Stats.Perception);
+        int totalAgi = selectedList.Sum(s => s.Stats.Agility);
+        var area = ExpeditionManager.Instance.CurrentArea;
+        strengethText.color = totalStr >= area.Stats.RequiredStrength ? Color.green : Color.red;
+        perceptionText.color = totalPer >= area.Stats.RequiredPerception ? Color.green : Color.red;
+        agilityText.color = totalAgi >= area.Stats.RequiredAgility ? Color.green : Color.red;
     }
     private void RenderButtons(List<Button> buttonList, List<ActiveSurvivor> dataList)
     {

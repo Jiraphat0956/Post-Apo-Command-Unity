@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27b42533988a1e4da9a024aa9fbb480, type: 3}
+  m_Name: 1_Old Pharmacy
+  m_EditorClassIdentifier: Assembly-CSharp::AreaTemplate
+  Sprite: {fileID: 21300000, guid: e9d5ef2dabf36cf4abea8efbd4d02a7a, type: 3}
+  AreaName: Old Pharmacy
+  Description: A small, dust-covered chemist's shop. While most medicine is gone,
+    valuable supplies are still hidden in hard-to-reach nooks and crannies.
+  Stats:
+    RequiredStrength: 5
+    RequiredPerception: 35
+    RequiredAgility: 15
+    BaseRisk: 0.2
+  FoodRewardRange: 20

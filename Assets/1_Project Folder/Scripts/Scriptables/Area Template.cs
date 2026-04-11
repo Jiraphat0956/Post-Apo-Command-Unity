@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewArea", menuName = "Game/Expedition Area")]
 public class AreaTemplate : ScriptableObject
 {
+    public Sprite Sprite;
     public string AreaName;
     [TextArea] public string Description; // คำอธิบายพื้นที่ให้ผู้เล่นอ่าน
     public AreaStats Stats;

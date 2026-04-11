@@ -3,7 +3,9 @@ using UnityEngine;
 [System.Serializable]
 public class ActiveSurvivor
 {
+    public Sprite Sprite;
     public string Name;
+    public string Description;
     public SurvivorStats Stats;
     public float CurrentHealth = 100f;
     public bool IsResting = false; // สถานะพักฟื้นหลังภารกิจ
@@ -11,8 +13,11 @@ public class ActiveSurvivor
                                               // Constructor: สร้างตัวละครจริงจาก Template
     public ActiveSurvivor(SurvivorTemplate template)
     {
+        this.Sprite = template.Sprite;
         this.Name = template.DefaultName;
+        this.Description = template.Description;
         this.Stats = template.BaseStats;
+        this.CurrentHealth = template.BaseStats.MaxHealth;
     }
 
     // ฟังก์ชันคำนวณการฟื้นฟูเมื่อไม่ได้ออกสำรวจ

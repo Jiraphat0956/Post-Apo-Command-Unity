@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static ExpeditionManager;
+using static UnityEngine.Rendering.STP;
 
 public class ExpeditionManager : Singleton<ExpeditionManager>
 {
@@ -26,14 +27,14 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             Debug.LogError("No areas available in GameManager!");
         }
     }
-    public void ExecutePartyExpedition(List<ActiveSurvivor> party)
+    public float GetSuccessChance(List<ActiveSurvivor> party)
     {
+        if (party == null || party.Count == 0) return 0f;
+
         GameBalanceConfig config = GameManager.Instance.CurrentConfig;
         AreaTemplate area = CurrentArea;
-        // 1. รวม Stat ของทุกคนในทีม
-        int totalStr = 0;
-        int totalPer = 0;
-        int totalAgi = 0;
+
+        int totalStr = 0, totalPer = 0, totalAgi = 0;
         float totalFatigue = 0;
 
         foreach (var member in party)
@@ -43,29 +44,67 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             totalAgi += member.Stats.Agility;
             totalFatigue += member.Fatigue;
         }
-        // คำนวณความเหนื่อยเฉลี่ยของทีม
-        float avgFatigue = totalFatigue / party.Count;
+        float successChance = 0;
 
-        // 2. คำนวณโอกาสสำเร็จพื้นฐาน
-        float successChance = 1.0f;
-        List<string> updates = new List<string>();
+        // 1. Fatigue Penalty
+        //successChance -= (avgFatigue / 100f) * config.MaxFatiguePenalty;
 
-        // หักลบโอกาสสำเร็จจากความเหนื่อย (ยิ่งเหนื่อยมาก โอกาสล้มเหลวยิ่งสูง)
-        float fatiguePenalty = (avgFatigue / 100f) * config.MaxFatiguePenalty; // สูงสุดหัก 99%
-        successChance -= fatiguePenalty;
-
-        if (avgFatigue > 50f)
-            updates.Add($"The team is exhausted, decreasing success chance by {fatiguePenalty * 100:F0}%.");
-
-        // ตรวจสอบ Stat ตามเดิม
-        if (totalStr < area.Stats.RequiredStrength)
+        float totalRequirement = area.Stats.RequiredStrength + area.Stats.RequiredPerception + area.Stats.RequiredAgility;
+        if (totalStr >= area.Stats.RequiredStrength)
         {
-            float penalty = (area.Stats.RequiredStrength - totalStr) * 0.1f;
-            successChance -= penalty;
-            updates.Add($"Manpower insufficient. (Success Chance -{penalty * 100}%)");
+            successChance += area.Stats.RequiredStrength;
+        }
+        if (totalPer >= area.Stats.RequiredPerception)
+        {
+            successChance += area.Stats.RequiredPerception;
+        }
+        if (totalAgi >= area.Stats.RequiredAgility)
+        {
+            successChance += area.Stats.RequiredAgility;
         }
 
+        successChance = (successChance / totalRequirement);
 
+        // --- คำนวณ Fatigue Penalty ---
+        // สมมติค่าเฉลี่ยความเหนื่อย 20 จะได้ค่า 0.2f
+        float avgFatigue = totalFatigue / party.Count;
+        float fatiguePenaltyPercent = (avgFatigue / 100f);
+
+        successChance = successChance * (1f - fatiguePenaltyPercent);
+
+        // 2. Stats Penalty (เช็คครบทั้ง 3 สาย)
+        /*if (totalStr < area.Stats.RequiredStrength)
+            successChance -= (area.Stats.RequiredStrength - totalStr) * 0.1f;
+
+        if (totalPer < area.Stats.RequiredPerception)
+            successChance -= (area.Stats.RequiredPerception - totalPer) * 0.1f;
+
+        if (totalAgi < area.Stats.RequiredAgility)
+            successChance -= (area.Stats.RequiredAgility - totalAgi) * 0.1f;*/
+
+        return Mathf.Clamp01(successChance);
+    }
+    public void ExecutePartyExpedition(List<ActiveSurvivor> party)
+    {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
+        AreaTemplate area = CurrentArea;
+        List<string> updates = new List<string>();
+
+        // --- ใช้ฟังก์ชัน GetSuccessChance มาคำนวณเพื่อให้ค่าตรงกัน 100% ---
+        float successChance = GetSuccessChance(party);
+
+        // คำนวณความเหนื่อยเฉลี่ยเพื่อแสดง Log เท่านั้น
+        float avgFatigue = 0;
+        foreach (var m in party) avgFatigue += m.Fatigue;
+        avgFatigue /= party.Count;
+
+        if (avgFatigue > 50f)
+            updates.Add($"The team is exhausted, heavily affecting performance.");
+
+        // (สร้าง Log แจ้งเตือนเรื่อง Stat ที่ไม่พอ - สามารถใส่ Logic เช็คสั้นๆ ตรงนี้เพื่อเพิ่มข้อความใน Log ได้)
+        CheckStatDeficiency(party, area, updates);
+
+        Debug.Log($"Calculated Success Chance: {successChance * 100:F2}%");
         // 3. ทอยลูกเต๋าตัดสินผล (Final Roll)
         bool isSuccess = Random.value <= successChance;
         float supplyFound = 0;
@@ -115,18 +154,32 @@ public class ExpeditionManager : Singleton<ExpeditionManager>
             IsSuccess = isSuccess,
             Log = isSuccess ? "Mission Accomplished" : "Mission Failed",
             SupplyGained = supplyFound,
+            SupplyUsed = GameManager.Instance.notSelectedSurvivor.Count * config.SupplyConsumptionPerPerson,
             StatusUpdates = updates,
             FoundSurvivor = foundSurvivor
         };
         OnExpeditionComplete?.Invoke(CurrentResult);
     }
+    // ฟังก์ชันเสริมสำหรับเขียน Log ในหน้า Result ให้ละเอียดขึ้น
+    void CheckStatDeficiency(List<ActiveSurvivor> party, AreaTemplate area, List<string> updates)
+    {
+        int s = 0, p = 0, a = 0;
+        foreach (var m in party) { s += m.Stats.Strength; p += m.Stats.Perception; a += m.Stats.Agility; }
+
+        if (s < area.Stats.RequiredStrength) updates.Add("- Low Manpower (Strength deficiency)");
+        if (p < area.Stats.RequiredPerception) updates.Add("- Poor Visibility (Perception deficiency)");
+        if (a < area.Stats.RequiredAgility) updates.Add("- Difficult Terrain (Agility deficiency)");
+    }
     public void SkipExpedition()
     {
+        GameBalanceConfig config = GameManager.Instance.CurrentConfig;
+
         CurrentResult = new ExpeditionResult
         {
             IsSuccess = false,
             Log = "Expedition Skipped",
             SupplyGained = 0,
+            SupplyUsed = GameManager.Instance.notSelectedSurvivor.Count * config.SupplyConsumptionPerPerson * config.SkipExpeditionPenaltyMultiplier,
             StatusUpdates = new List<string> { "The team decided to skip this mission." }
         };
         OnExpeditionComplete?.Invoke(CurrentResult);
@@ -149,6 +202,7 @@ public struct ExpeditionResult
     public bool IsSuccess;
     public string Log;
     public float SupplyGained;
+    public float SupplyUsed;
     public List<string> StatusUpdates; // เก็บเหตุการณ์ที่เกิดขึ้นกับแต่ละคน
     public SurvivorTemplate FoundSurvivor;
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85e815358dd2f24889cf7d4dd82f71f, type: 3}
+  m_Name: Normal Mode
+  m_EditorClassIdentifier: Assembly-CSharp::GameBalanceConfig
+  StartingSupply: 50
+  StartingSurvivorCount: 3
+  TargetDayToWin: 20
+  BaseFatigueGain: 20
+  FatigueMultiplier: 1.5
+  RestRecoveryRate: 25
+  HealthRecoveryRate: 10
+  MaxPartySize: 3
+  SupplyConsumptionPerPerson: 5
+  SkipExpeditionPenaltyMultiplier: 2
+  NewSurvivorChance: 0.25
+  MaxActiveSurvivor: 15
+  MaxFatiguePenalty: 0.4
